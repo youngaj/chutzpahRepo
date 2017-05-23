@@ -1,0 +1,119 @@
+﻿<div class="timeline-seperator text-center">
+    <span>{{vm.questionData.formatedTimeStamp}}</span>
+    <div class="btn-group pull-right">
+        <button class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-cog fa-lg"></i> Actions
+        </button>
+        <ul class="dropdown-menu pull-right" style="text-align:left">
+            <li ng-if="vm.questionData.canEdit">
+                <a href="javascript:void(0)" ng-click="vm.editQuestion(vm.questionData)"><i class="fa fa-pencil fa-fw txt-color-greenLight"></i> <u>E</u>dit</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" ng-click="vm.goToDetail(vm.questionData)"><i class="fa fa-pencil fa-fw txt-color-greenLight"></i> <u>D</u>etail Page</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" ng-click="vm.onLoadAttachments(vm.questionData)"><i class="fa fa-fw fa-file blue"></i> <u>A</u>ttachments</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" ng-click="vm.onLoadComments(vm.questionData)"><i class="fa fa-file fa-fw txt-color-greenLight"></i> <u>C</u>omments</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)" ng-click="vm.onLoadFollowers(vm.questionData)"><i class="fa fa-fw fa-envelope blue"></i> <u>F</u>ollowers</a>
+            </li>
+            <li ng-if="vm.questionData.canDelete">
+                <a href="javascript:void(0)" ng-click="vm.onDelete(vm.questionData)"><i class="fa fa-trash-o fa-fw txt-color-red"></i> <u>D</u>elete</a>
+            </li>
+            <li class="divider"></li>
+            <li class="text-align-center">
+                <a href="javascript:void(0)" ng-click="">Cancel</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="chat-body no-padding profile-message">
+    <ul>
+        <li class="message">
+            <avatar data-actor="vm.questionData.author" data-size="60"> </avatar>
+
+            <section class="message-text" style="width:90%">
+                <section ng-hide="vm.questionData.showEdit">
+                    <h4 class="media-heading"><a ng-click="vm.toggleAnswerEntry()">{{vm.questionData.text}}</a></h4>
+                </section>
+                <section ng-if="vm.questionData.showEdit">
+                    <textarea rows="2" class="form-control" placeholder="Enter your question and submit" ng-model="vm.questionData.text"></textarea>
+                    <br />
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <div>
+                                <a class="btn btn-primary pull-right" role="button" ng-click="vm.onUpdate(vm.questionData)">Update</a>
+                            </div>
+                            <div>
+                                <a class="btn btn-default pull-right" ng-click="vm.cancelEdit()">Cancel</a>
+                            </div>
+                        </footer>
+                    </form>
+                </section>
+                <span class="text-muted">
+                    State:
+                    <span ng-if="vm.questionData.state === 'Answered'" class="green">
+                        <i class="fa fa-check"></i> {{vm.questionData.state}}
+                    </span>
+                    <span ng-if="vm.questionData.state !== 'Answered'">
+                        {{vm.questionData.state}}
+                    </span>
+                    <br />
+                    {{vm.questionData.author.name}}
+                </span>
+                <small class="text-muted pull-right ultra-light">
+                    {{vm.questionData.timeSince}}
+                </small>
+                <ul class="list-inline font-xs">
+                    <li>
+                        <a href-void class="text-danger" ng-click="vm.toggleAnswerEntry()"><i class="fa fa-reply"></i> Answer</a>
+                    </li>
+                    <li ng-if="vm.questionData.answers.length >0">
+                        <a href-void class="text-info" ng-hide="vm.questionData.showAnswers" ng-click="vm.questionData.showAnswers=true">Show All Answers ({{vm.questionData.answers.length}})</a>
+                        <a href-void class="text-info" ng-if="vm.questionData.showAnswers" ng-click="vm.questionData.showAnswers=false">Hide All Answers ({{vm.questionData.answers.length}})</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-muted" ng-click="vm.upVote(vm.questionData)"> <i class="fa fa-thumbs-up"></i> Up-vote ({{vm.questionData.voteCount}})</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-muted" ng-click="vm.follow(vm.questionData)"><i class="fa fa-envelope"></i> Follow</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-muted" ng-click="vm.loadComments(vm.questionData)"><i class="fa fa-file fa-fw"></i> Comments</a>
+                    </li>
+                </ul>
+                <br />
+                <span ng-show="vm.state.showAnswerEntry">
+                    <textarea rows="2" class="form-control" placeholder="Enter your question answer and submit" ng-model="vm.selectedAnswer.text"></textarea>
+                    <br />
+                    <button class="btn btn-sm btn-primary pull-right" ng-click="vm.createAnswer(vm.questionData, vm.selectedAnswer)">
+                        Submit Answer
+                    </button>
+                </span>
+                <section ng-if="vm.questionData.tags.length > 0">
+                    <b>Tags:</b>
+                    <span ng-repeat="tag in vm.questionData.tags">
+                        <span class="badge bg-color-blueLight">
+                            &nbsp;{{tag.text}}&nbsp;
+                        </span>&nbsp;
+                    </span>
+
+                </section>
+            </section>
+
+        </li>
+
+        <li class="message message-reply" ng-repeat="answer in vm.questionData.answers | orderBy: state" ng-show="vm.questionData.showAnswers">
+            <question-answer data-answer="answer"
+                             data-question-id="vm.questionData.id"
+                             data-question-owner="vm.questionData.author"
+                             data-on-accept-answer="vm.acceptAnswer(answer)"
+                             data-on-answer-deleted="vm.answerDeleted(answer)"
+                             data-on-load-comments="vm.onLoadComments()">
+            </question-answer>
+        </li>
+    </ul>
+</div>

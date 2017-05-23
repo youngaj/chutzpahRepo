@@ -1,0 +1,28 @@
+﻿<div>
+    <div class="col-sm-1">
+        <img ng-if="user.avatar == null" ng-src="{{user.genericImageUrl}}" alt="{{user.name}}" class="online">
+        <img ng-if="user.avatar != null" ng-src="{{user.avatar.smallImageUrl}}" alt="{{vm.user.name}}" class="online" />
+    </div>
+    <div class="col-sm-11">
+        <h4>
+            <a href-void class="username" ng-click="vm.goToDetail(user.id)">
+                {{user.name}}
+            </a>
+        </h4>
+        Object Type: {{user.classType}}
+        <br />
+        <span ng-bind-html="user.emailAddress | linky"></span>
+        <br />
+        {{user.auId}} | {{user.uupic}}
+        <br />
+        Active: {{user.isActive}}
+        <ul class="list-inline font-xs">
+            <li>
+                <a href-void class="text-danger" ng-click="vm.like(user.compositeKey)"><i class="fa fa-thumbs-up"></i> Like</a>
+            </li>
+            <li>
+                <a href-void class="text-danger" ng-click="vm.goToDetail(user.id)">View Details</a>
+            </li>
+        </ul>
+    </div>
+</div>

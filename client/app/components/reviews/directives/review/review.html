@@ -1,0 +1,53 @@
+﻿<div>
+    <div ng-show="isLoading">
+        <div class="row">
+            <div class="col-md-12 text-center text-info">
+                <h1><i class="fa fa-spinner fa-spin blue"></i> Loading review ... </h1>
+            </div>
+        </div>
+    </div>
+    <div ng-hide="isLoading">
+        <from class="smart-form">
+            <fieldset>
+                <section class="col-md-4">
+                    <label class="label">Num</label>
+                    <h2>{{ reviewData.num}}</h2>
+                </section>
+                <section class="col-md-4">
+                    <label class="label">Owner</label>
+                    <h2>{{ reviewData.owner.name}}</h2>
+                </section>
+                <section class="col-md-4">
+                    <label class="label">Status</label>
+                    <label class="select">
+                        <select class="input-lg" ng-model="reviewData.status" ng-options="status.name for status in statuses" required></select>
+                        <i></i>
+                    </label>
+                </section>
+                <section class="col-md-12">
+                    <label class="label">Title</label>
+                    <label class="input">
+                        <input type="text" class="input-lg" placeholder="Title" data-ng-model="reviewData.title" required>
+                    </label>
+                </section>
+                <section class="col-md-12">
+                    <label class="label">Description</label>
+                    <label class="textarea">
+                        <textarea class="form-control" placeholder="Description" rows="4" data-ng-model="reviewData.description"></textarea>
+                    </label>
+                </section>
+            </fieldset>
+        </from>
+        <div class="row">
+            <div class="col-md-12 text-center text-info" ng-show="reviewData.reviewers.length < 1">
+                No reviewers found.
+            </div>
+            <div class="col-md-12 text-center text-info" ng-show="reviewData.reviewers.length > 0">
+                {{reviewData.reviewers.length}} reviewers found.
+            </div>
+            <span class="col-sm-12 col-md-6" data-ng-repeat="reviewer in reviewData.reviewers | orderBy: 'reviewData.reviewer.actor.name'">
+                <reviewer reviewer-data="reviewer" remove-fn="removeReviewer(reviewer)" curr-user="currUser"></reviewer>
+            </span>
+        </div>
+    </div>
+</div>

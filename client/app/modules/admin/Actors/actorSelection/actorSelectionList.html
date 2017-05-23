@@ -1,0 +1,40 @@
+﻿
+<!-- Modal -->
+<div class="modal fade" id="actorSelectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="vm.clearActors()">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">{{vm.title}} Options</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-stripped table-hover">
+                            <tr>
+                                <th colspan="2">
+                                    <input type="search" class="input-lg" placeholder="Filter" data-ng-model="nameFilter" data-ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 150, 'blur': 0 } }">
+                                </th>
+                            </tr>
+                            <tr data-ng-repeat="actor in vm.actors | filter: nameFilter" ng-click="vm.selectActor(actor)">
+                                <td><input type="checkbox" ng-model="actor.isSelected" /></td>
+                                <td>{{::actor.name}}</td>
+                                <td>{{::actor.classType}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clearActors()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="vm.clearActors()">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

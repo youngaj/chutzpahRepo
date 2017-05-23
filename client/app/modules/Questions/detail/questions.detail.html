@@ -1,0 +1,182 @@
+﻿<div id="content">
+    <section id="LinkDetail" class="mainbar">
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-questionEdit" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-question green"></i> </span>
+                <h2>{{ vm.title}} </h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <form class="smart-form ng-pristine ng-valid">
+                        <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                            <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                            {{vm.state.loadingMsg}}
+                        </div>
+                        <section class="col-12">
+                            <label class="label"> Question</label>
+                            <label class="textarea">
+                                <textarea class="form-control input-lg" placeholder="Question" name="question" id="question" data-ng-model="vm.question.text"></textarea>
+                            </label>
+                        </section>
+                        <div class="row">
+                            <section class="col col-4">
+                                <label class="label">Author</label>
+                                <label class="input">
+                                    <input type="text" class="form-control input-lg" ng-model="vm.question.author.name" close-text="Close" disabled />
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label"> Date Created</label>
+                                <label class="input">
+                                    <input type="text" class="form-control input-lg" ng-model="vm.question.created" close-text="Close" disabled />
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label">State</label>
+                                <label class="input">
+                                    <input type="text" class="form-control input-lg" ng-model="vm.question.state" close-text="Close" disabled />
+                                </label>
+                            </section>
+                        </div>
+                    </form>
+                        <div class="row">
+                            <section class="col-sm-12" ng-if="vm.question.id > 0">
+                                Tags
+                                <div class="form-group" ng-if="vm.question.id > 0">
+                                    <tags-input ng-model="vm.question.tags">
+                                        <!--<auto-complete source="vm.loadTagOptions($query)"></auto-complete>-->
+                                    </tags-input>
+                                </div>
+                                <span ng-if="(vm.question.id > 0) === false">
+                                    *Tags can be added after the question is created.
+                                </span>
+                            </section>
+                        </div>
+                        <fieldset>
+                            <div class="col-sm-12 chat-body no-padding profile-message">
+                                Answers
+                                <ul>
+                                    <li class="message" ng-repeat="answer in vm.question.answers | orderBy: state">
+                                        <question-answer data-answer="answer"
+                                                         data-avatar-size="vm.config.avatarSize"
+                                                         data-question-id="vm.question.id"
+                                                         data-question-owner="vm.question.author"
+                                                         data-on-accept-answer="vm.acceptAnswer(answer)">
+                                        </question-answer>
+                                    </li>
+                                </ul>
+                            </div>
+                        </fieldset>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <div><a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.save(vm.question)" data-dismiss="modal">{{vm.state.saveBtnText}}</a></div>
+                            <div ng-show="vm.question.id > 0"><a class="btn btn-default btn-lg pull-right" data-toggle="modal" data-target="#modalAnswer">Answer</a></div>
+                            <div>
+                                <a class="btn btn-default btn-lg pull-right" ng-click="vm.goToList()">All Questions</a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+
+        </div>
+
+        <div jarvis-widget id="virtualFolders-item-support" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                            <i class="fa fa-lg fa-file-text"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Attachments
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Followers
+                            </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Comments
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as drop down edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="tab-content">
+                        <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer">
+                            <file-container data-entity-composite-key="vm.question.compositeKey" data-entity-reference="vm.question"  data-allow-edit="vm.config.allowAttachments"></file-container>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.question.compositeKey" data-allow-edit="vm.config.allowFollowers" data-entity-reference="vm.question"></follower-list>
+                        </div>
+                        <div class="tab-pane active" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.question.compositeKey" data-entity-reference="vm.question"  data-allow-edit="vm.config.allowComments"></comment-list>
+                        </div>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+    </section>
+</div>
+
+<div id="modalAnswer" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Tag</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col col-sm-12">
+                        <textarea rows="2" class="form-control" placeholder="Enter your question answer and submit" ng-model="vm.selectedAnswer.text"></textarea>
+                        <br />
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" data-dismiss="modal">Close</a>
+                <button class="btn btn-sm btn-primary pull-right" ng-click="vm.createAnswer(vm.question, vm.selectedAnswer)" data-dismiss="modal">
+                    Submit Answer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #EEE;
+        font: 10px/13px 'Lucida Sans',sans-serif;
+    }
+
+    .wrap {
+        overflow: hidden;
+        margin: 10px;
+    }
+
+    .box {
+        float: left;
+        position: relative;
+        width: 20%;
+        padding-bottom: 20%;
+    }
+
+    .boxInner {
+        position: absolute;
+        left: 10px;
+        right: 10px;
+        top: 10px;
+        bottom: 10px;
+        overflow: hidden;
+    }
+
+        .boxInner img {
+            width: 100%;
+        }
+
+        .boxInner .titleBox {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-bottom: -50px;
+            background: #000;
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFF;
+            padding: 10px;
+            text-align: center;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            -o-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+
+    body.no-touch .boxInner:hover .titleBox, body.touch .boxInner.touchFocus .titleBox {
+        margin-bottom: 0;
+    }
+
+    @media only screen and (max-width : 480px) {
+        /* Smartphone view: 1 tile */
+        .box {
+            width: 100%;
+            padding-bottom: 100%;
+        }
+    }
+
+    @media only screen and (max-width : 650px) and (min-width : 481px) {
+        /* Tablet view: 2 tiles */
+        .box {
+            width: 50%;
+            padding-bottom: 50%;
+        }
+    }
+
+    @media only screen and (max-width : 1050px) and (min-width : 651px) {
+        /* Small desktop / ipad view: 3 tiles */
+        .box {
+            width: 33.3%;
+            padding-bottom: 33.3%;
+        }
+    }
+
+    @media only screen and (max-width : 1290px) and (min-width : 1051px) {
+        /* Medium desktop: 4 tiles */
+        .box {
+            width: 25%;
+            padding-bottom: 25%;
+        }
+    }
+</style>
+<div id="content" class="no-touch">
+    <div class="row hidden-mobile">
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa-fw fa fa-picture-o"></i>
+                Symphony Photo <span>
+                    &gt;
+                    Gallery
+                </span>
+            </h1>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 text-align-right">
+            <div class="page-title">
+                <form class="header-search pull-right">
+                    <input id="search-fld" type="text" class="input-lg" name="q" placeholder="Search Image Gallery" ng-model="vm.searchText">
+                    <button ng-click="vm.executeSearch()">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <a href="$" id="cancel-search-js" title="Cancel Search"><i class="fa fa-times"></i></a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+
+    <div class="wrap">
+        <div class="box" ng-repeat="photo in vm.photos">
+            <div class="boxInner" ng-click="vm.previewPhoto(photo)" data-toggle="modal" data-target="#modalImagePreviewer">
+                <img ng-src="{{photo.thumbnailUrl}}" alt="{{photo.title}}" />
+                <div class="titleBox">{{photo.title}}</div>
+            </div>
+        </div>
+        <div class="text-center text-info" ng-show="vm.state.isLoading">
+            <div class="row">
+                <div class="col-md-12">
+                    <br />
+                    <h1><i class="fa fa-spinner fa-spin blue"></i> Retrieving photos ...</h1>
+                    <br />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12 text-align-center" ng-show="vm.morePhotos">
+            <a class="btn btn-default" ng-click="vm.getPage()">Get More Images</a>
+        </div>
+    </div>
+
+    <div id="modalImagePreviewer" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                    <h4 class="modal-title">
+                        <b>{{vm.selectedPhoto.title}}</b>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <img ng-src="{{vm.selectedPhoto.imageUrl}}"
+                         alt="{{vm.selectedPhoto.title}}"
+                         width="600" height="600" />
+                    <br />
+                    <br />
+                    <table style="width:100%;">
+                        <tr ng-repeat="photoData in vm.selectedPhoto.metaData">
+                            <th style="width:25%">{{::photoData.fieldName}}</th>
+                            <td style="width:5%">&nbsp;</td>
+                            <td style="width:70%">{{::photoData.value}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-dismiss="modal" ng-click="vm.download(vm.selectedPhoto)">Download</button>
+                    <button class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

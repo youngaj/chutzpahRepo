@@ -1,0 +1,45 @@
+﻿<div>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" data-ng-click="cancel()">&times;</button>
+        <h3>{{title}}</h3>
+    </div>
+    <div class="modal-body">
+        <p>{{message}}</p>
+        <br />
+        <form class="smart-form ng-pristine ng-valid">
+            <div class="row">
+                <section class="col col-4">
+                    <label class="label">Parent</label>
+                    <h2>{{ entity.name}}</h2>
+                </section>
+
+                <section class="col col-4">
+                    <label class="label">Available Folders <span class="txt-color-red">*</span></label>
+                    <label class="select" ng-class="{'state-error':!importfolder}">
+                        <select name="importfolder" class="input-lg" ng-model="importfolder" ng-options="folder for folder in availableFolders" required></select>
+                        <i></i>
+                    </label>
+                    <div class="note note-error" ng-show="!importfolder">
+                        This is a required field.
+                    </div>
+                </section>
+
+                <section class="col col-4">
+                    <label class="label">Owner <span class="txt-color-red">*</span></label>
+                    <label class="select" ng-class="{'state-error':!owner}">
+                        <select name="owner" class="input-lg" ng-model="owner" ng-options="user.name for user in users track by user.compositeKey" required></select>
+                    </label>
+                    <div class="note note-error" ng-show="!owner">
+                        This is a required field.
+                    </div>
+                </section>
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="alert alert-warning" ng-show="state.inProgress">{{state.progressBanner.msg}}</div>
+        <button class="btn btn-primary" data-ng-click="ok()">{{okText}}</button>
+        <button class="btn btn-info" data-ng-click="cancel()">{{cancelText}}</button>
+    </div>
+</div>

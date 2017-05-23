@@ -1,0 +1,381 @@
+﻿<div id="content">
+    <section id="RiskDetail" class="mainbar">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-sliders fa-fw "></i> Project Risks
+            <span>
+                &gt;
+                {{ vm.title}}
+            </span>
+        </h1>
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-riskEdit" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-lightbulb-o"></i> </span>
+                <h2>Risk </h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as drop-down edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                        <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                        {{vm.state.loadingMsg}}
+                    </div>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                Title:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="Title" ng-disabled="vm.state.isLocked" type="text" name="tile" id="title" data-ng-model="vm.risk.title">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                Type:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.type" ng-disabled="vm.state.isLocked" required ng-options="opt as opt.name for opt in vm.riskTypes track by opt.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                Safety:
+                                <form class="smart-form">
+                                    <div class="inline-group fullWidth">
+                                        <label class="checkbox input-lg">
+                                            <input type="checkbox" name="checkbox-inline" ng-model="vm.risk.isSafety" checked="checked" ng-disabled="vm.state.isLocked" class="input-lg">
+                                            <i></i>
+                                        </label>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                            <div class="col-sm-3">
+                                Project:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.project" ng-disabled="vm.state.isProjectLocked" required ng-options="opt as opt.name for opt in vm.projects track by opt.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                Num:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="Num" type="text" disabled="disabled" name="num" id="num" data-ng-model="vm.risk.num">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                Status:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.status" ng-disabled="vm.state.isLocked" required ng-options="opt as opt.name for opt in vm.riskStatuses track by opt.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                State:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.state" ng-disabled="vm.state.isLocked" required ng-options="opt as opt.name for opt in vm.riskStates track by opt.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="col col-sm-12">
+                                Given
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="Given" name="ifPart" id="given" data-ng-model="vm.risk.given" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-sm-12">
+                                If
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="If Part" name="ifPart" id="ifPart" data-ng-model="vm.risk.ifPart" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-sm-12">
+                                Then
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="Then Part" name="thenPart" id="thenPart" data-ng-model="vm.risk.thenPart" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-sm-12">
+                                Mitigation
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" rows="5" placeholder="Mitigation" name="mitigation" id="mitigation" data-ng-model="vm.risk.mitigation" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-sm-12">
+                                Closure Statement
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="Closure Statement" name="closureStatement" id="closureStatement" data-ng-model="vm.risk.closureStatement" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="col-sm-4">
+                                Likelihood Score
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sort fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.likelihoodScore" ng-options="opt as opt for opt in vm.options.scores" required ng-change="vm.calculateTotalRisk(vm.risk.likelihoodScore, vm.risk.consequenceScore)" ng-disabled="vm.state.isLocked"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                Consequence Score:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sort fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.consequenceScore" ng-options="opt as opt for opt in vm.options.scores" required ng-change="vm.calculateTotalRisk(vm.risk.likelihoodScore, vm.risk.consequenceScore)" ng-disabled="vm.state.isLocked"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                Total Risk Score:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-sort fa-lg fa-fw"></i></span>
+                                        <input type="text" class="form-control input-lg" ng-model="vm.risk.riskScore" placeholder="Total Risk Score"  ng-disabled="vm.state.isLocked"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="col col-sm-6">
+                                Likelihood Rationale
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="Likelihood Rationale" name="likelihood" id="likelihood" data-ng-model="vm.risk.likelihood" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col col-sm-6">
+                                Consequence Rationale
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="Consequence Rationale" name="consequence" id="consequence" data-ng-model="vm.risk.consequence" ng-disabled="vm.state.isLocked"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="col-sm-4">
+                                Assignee:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.risk.assignee" ng-options="opt as opt.name for opt in vm.options.assignees track by opt.id" ng-disabled="vm.state.isLocked"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                Date Created:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                        <input type="text"
+                                               disabled="disabled"
+                                               class="form-control input-lg"
+                                               ng-model="vm.risk.dateCreated" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                Last Updated:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                        <input type="text"
+                                               disabled="disabled"
+                                               class="form-control input-lg"
+                                               ng-model="vm.risk.dateUpdated" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12" ng-if="vm.risk.id > 0">
+                                Tags:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-tags fa-lg fa-fw"></i></span>
+                                        <tags-input ng-model="vm.risk.tags">
+                                            <!--<auto-complete source="vm.loadTagOptions($query)"></auto-complete>-->
+                                        </tags-input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <div ng-show="vm.state.isSaveable">
+                                <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.save(vm.risk)" data-dismiss="modal"><i class="fa fa-save"></i> {{vm.state.saveButtonText}}</a>
+                            </div>
+                            <div>
+                                <div class="btn-group pull-right" data-dropdown ng-if="vm.state.isLocked && vm.security.allowMetaDataEdit">
+                                    <a class="btn btn-success dropdown-toggle">
+                                        Set Status <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li ng-repeat="status in vm.riskStatuses">
+                                            <a href-void ng-click="vm.setStatus(vm.risk, status)">{{status.name}}</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <a class="btn btn-default btn-lg pull-right" ng-click="vm.goToList()">
+                                    <i class="fa fa-list-ul fa-lg"></i> Risk List
+                                </a>
+                                <a ng-show="vm.state.isDeletable" class="btn btn-default btn-lg pull-right" ng-click="vm.deleteRisk(vm.risk)">
+                                    <i class="fa fa-trash-o fa-lg"></i> Delete
+                                </a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+
+        </div>
+
+        <div jarvis-widget id="virtualFolders-item-support" data-widget-editbutton="false" data-widget-deletebutton="false" ng-if="vm.risk.id > 0">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-review">
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Review
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                            <i class="fa fa-lg fa-file-text"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                File Container
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-roleAssignments">
+                            <i class="fa fa-lg fa-child"></i>
+                            <span class="hidden-mobile hidden-tablet"> Roles </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-security">
+                            <i class="fa fa-lg fa-lock"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Security
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Followers
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Comments
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-changeHistory">
+                            <i class="fa fa-lg fa-code-fork"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Change History
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as drop-down edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="tab-content">
+                        <div class="tab-pane" id="supportItem-review" name="supportItem-review">
+                            <div class="alert alert-warning fade in">
+                                <i class="fa-fw fa fa-warning"></i><strong>Warning:</strong>
+                                Coming soon!  The features in this area are not complete.
+                            </div>
+                            <review-manager data-entity-composite-key="vm.risk.compositeKey" data-entity="vm.risk" data-allow-edit="vm.security.allowReview"></review-manager>
+                        </div>
+                        <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer">
+                            <file-container data-entity-composite-key="vm.risk.compositeKey" data-entity-reference="vm.entityReference" data-allow-edit="vm.security.allowFileContainer"></file-container>
+                        </div>
+                        <div class="tab-pane" id="supportItem-roleAssignments" name="supportItem-roleAssignments">
+                            <role-assignments data-entity-composite-key="vm.risk.compositeKey" data-allow-edit="vm.security.allowSecurity"></role-assignments>
+                        </div>
+                        <div class="tab-pane active" id="supportItem-security" name="supportItem-security">
+                            <symphony-security data-composite-key="vm.risk.compositeKey" data-secured-features="vm.options.availableSecurityPermissions" data-allow-edit="vm.security.allowSecurity"></symphony-security>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.risk.compositeKey" data-allow-edit="vm.security.allowFollowers"></follower-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.risk.compositeKey" data-entity-reference="vm.entityReference" data-allow-edit="vm.security.allowComments"></comment-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-changeHistory" name="supportItem-changeHistory">
+                            <change-history data-entity-composite-key="vm.risk.compositeKey" data-entity-reference="vm.entityReference"></change-history>
+                        </div>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+    </section>
+</div>

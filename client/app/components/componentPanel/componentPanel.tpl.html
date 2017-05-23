@@ -1,0 +1,97 @@
+﻿<div class="col-sm-12 col-md-12 col-lg-12">
+    <div jarvis-widget id="component-support-panel" data-widget-editbutton="false" data-widget-deletebutton="false">
+        <header>
+            <h2>Support Items</h2>
+            <ul class="nav nav-tabs pull-right in">
+                <li ng-if="vm.displayConfig.review === true">
+                    <a data-toggle="tab" data-target="#supportItem-review">
+                        <i class="fa fa-lg fa-check-square-o"></i>
+                        <span class="hidden-mobile hidden-tablet"> Review </span>
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" data-target="#supportItem-roleAssignments">
+                        <i class="fa fa-lg fa-child"></i>
+                        <span class="hidden-mobile hidden-tablet"> Roles </span>
+                    </a>
+                </li>
+
+                <li ng-if="vm.displayConfig.fileContainer === true" ng-class="{'active': vm.displayConfig.fileContainer === true}">
+                    <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                        <i class="fa fa-lg fa-file-text"></i>
+                        <span class="hidden-mobile hidden-tablet"> File Container </span>
+                    </a>
+                </li>
+                <li ng-if="vm.displayConfig.security === true" ng-class="{'active': vm.displayConfig.fileContainer != true}">
+                    <a data-toggle="tab" data-target="#supportItem-security" data-secured-features="vm.options.availableFeatures">
+                        <i class="fa fa-lg fa-lock"></i>
+                        <span class="hidden-mobile hidden-tablet"> Security </span>
+                    </a>
+                </li>
+                <li ng-if="vm.displayConfig.followers === true">
+                    <a data-toggle="tab" data-target="#supportItem-followers">
+                        <i class="fa fa-lg fa-envelope"></i>
+                        <span class="hidden-mobile hidden-tablet">Follower</span>
+                    </a>
+                </li>
+                <li ng-if="vm.displayConfig.comments === true">
+                    <a data-toggle="tab" data-target="#supportItem-comments">
+                        <i class="fa fa-lg fa-comments-o"></i>
+                        <span class="hidden-mobile hidden-tablet">Comment</span>
+                    </a>
+                </li>
+                <li ng-if="vm.displayConfig.history === true">
+                    <a data-toggle="tab" data-target="#supportItem-changeHistory">
+                        <i class="fa fa-lg fa-code-fork"></i>
+                        <span class="hidden-mobile hidden-tablet">
+                            Change History
+                        </span>
+                    </a>
+                </li>
+
+            </ul>
+        </header>
+
+        <!-- widget div-->
+        <div>
+
+            <!-- widget edit box -->
+            <div class="jarviswidget-editbox">
+                <!-- This area used as drop-down edit box -->
+            </div>
+            <!-- end widget edit box -->
+            <!-- widget content -->
+            <div class="widget-body">
+                <div class="tab-content">
+                    <div class="tab-pane" id="supportItem-roleAssignments" name="supportItem-roleAssignments">
+                        <role-assignments data-preload="vm.preload" data-initial-data="vm.data.roleAssignments" data-entity-composite-key="vm.entityCompositeKey" data-allow-edit="vm.securityConfig.allowSecurity"></role-assignments>
+                    </div>
+                    <div class="tab-pane" id="supportItem-review" name="supportItem-review" ng-if="vm.displayConfig.review === true">
+                        <div class="alert alert-warning fade in">
+                            <i class="fa-fw fa fa-warning"></i><strong>Warning:</strong>
+                            Coming soon!  The features in this area are not complete.
+                        </div>
+                        <review-manager data-entity-composite-key="vm.entityCompositeKey" data-entity="vm.entityReference" data-allow-edit="vm.securityConfig.allowReviews"></review-manager>
+                    </div>
+                    <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer" ng-if="vm.displayConfig.fileContainer === true" ng-class="{'active': vm.displayConfig.fileContainer === true} ">
+                        <file-container data-preload="vm.preload" data-initial-data="vm.data.fileContainers" data-entity-composite-key="vm.entityCompositeKey" data-entity-reference="vm.entityReference" data-allow-edit="vm.securityConfig.allowFileContainer" data-auto-process="vm.autoProcess"></file-container>
+                    </div>
+                    <div class="tab-pane" id="supportItem-security" name="supportItem-security" ng-if="vm.displayConfig.security === true" ng-class="{'active': vm.displayConfig.fileContainer !== true} ">
+                        <symphony-security data-preload="vm.preload" data-initial-data="vm.data.security" data-entity-composite-key="vm.entityCompositeKey" data-allow-edit="vm.securityConfig.allowSecurity"></symphony-security>
+                    </div>
+                    <div class="tab-pane" id="supportItem-followers" ng-if="vm.displayConfig.followers === true">
+                        <follower-list data-preload="vm.preload" data-initial-data="vm.data.followers" data-entity-composite-key="vm.entityCompositeKey" data-entity-reference="vm.entityReference" data-allow-edit="vm.securityConfig.allowFollowers"></follower-list>
+                    </div>
+                    <div class="tab-pane" id="supportItem-comments" ng-if="vm.displayConfig.comments === true">
+                        <comment-list data-preload="vm.preload" data-initial-data="vm.data.comments" data-entity-composite-key="vm.entityCompositeKey" data-entity-reference="vm.entityReference" data-allow-edit="vm.securityConfig.allowComments"></comment-list>
+                    </div>
+                    <div class="tab-pane" id="supportItem-changeHistory" name="supportItem-changeHistory" ng-if="vm.displayConfig.history === true">
+                        <change-history data-preload="vm.preload" data-initial-data="vm.data.changes" data-entity-composite-key="vm.entityCompositeKey" data-entity-reference="vm.entityReference"></change-history>
+                    </div>
+                </div>
+            </div>
+            <!-- end widget content -->
+        </div>
+        <!-- end widget div -->
+    </div>
+</div>

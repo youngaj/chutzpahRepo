@@ -1,0 +1,147 @@
+<div id="content">
+    <!-- row -->
+    <div class="row">
+        <div class="col-sm-12">
+            <ul id="myTab1" class="nav nav-tabs bordered">
+                <li class="active">
+                    <a href="#s1" data-toggle="tab">Search All <i class="fa fa-caret-down"></i></a>
+                </li>
+                <li>
+                    <a href="#s2" data-toggle="tab">Users</a>
+                </li>
+                <li>
+                    <a href="#s3" data-toggle="tab">Search History</a>
+                </li>
+                <li class="pull-right hidden-mobile">
+                    <a href-void> <span class="note">About {{vm.searchResponse.totalFound }} results ({{ vm.searchResponse.searchTimeInSeconds | number : 3}} seconds) </span> </a>
+                </li>
+            </ul>
+            <div id="myTabContent1" class="tab-content bg-color-white padding-10">
+                <div class="tab-pane fade in active" id="s1">
+                    <h1> Search <span class="semi-bold">{{vm.selectedSearchOption.displayText}}</span></h1>
+                    <br>
+                    <div class="input-group input-group-lg hidden-mobile">
+                        <div class="input-group-btn" data-dropdown>
+                            <button class="btn dropdown-toggle btn-xs btn-default" data-toggle="dropdown">
+                                {{vm.selectedSearchOption.displayText}} <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="divider"></li>
+                                <li ng-class="{'active': vm.selectedSearchOption.displayText === option.displayText}" ng-repeat="option in vm.searchOptions">
+                                    <a ng-click="vm.setSearchType(option.displayText)"><i class="fa fa-check" ng-show="vm.selectedSearchOption.displayText === option.displayText"></i> {{option.displayText}}</a>
+                                </li>
+                                <li class="divider"></li>
+                            </ul>
+                        </div>
+                        <input class="form-control input-lg" type="text" placeholder="Search again..." id="search-project" ng-model="vm.searchText">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default" ng-click="vm.search()">
+                                &#xA0;&#xA0;&#xA0;<i class="fa fa-fw fa-search fa-lg"></i>&#xA0;&#xA0;&#xA0;
+                            </button>
+                        </div>
+                    </div>
+                    <h1 class="font-md" ng-hide="vm.isLoading"> Search Results for <span class="semi-bold">{{vm.searchType}}</span><small class="text-danger"> &#xA0;&#xA0;({{vm.searchResponse.totalFound}} results in {{ vm.searchResponse.searchTimeInSeconds | number : 3}} seconds)</small></h1>
+                    <h1 ng-show="vm.isLoading"><i class="fa fa-spinner fa-spin blue"></i> Searching ...</h1>
+                    <div class="search-results clearfix" ng-repeat="result in vm.searchResponse.results">
+                        <user-search-result data-user="result" ng-if="result.classType === 'User'"></user-search-result>
+                        <link-search-result data-link="result" ng-if="result.classType === 'Link'"></link-search-result>
+                        <file-search-result data-file="result" ng-if="result.classType === 'SymphonyFile'"></file-search-result>
+                        <virtual-search-result data-item="result.entity" ng-if="result.class.includes('Virtual')"></virtual-search-result>
+                    </div>
+                    <div class="text-center">
+                        <hr>
+                        <ul class="pagination no-margin">
+                            <li class="prev disabled">
+                                <a href-void>Previous</a>
+                            </li>
+                            <li ng-repeat="pageNumber in vm.searchResponse.pageNumbers" ng-class="{'active': pageNumber === vm.searchResponse.currentPage}">
+                                <span ng-click="vm.loadPage(pageNumber)">{{pageNumber}}</span>
+                            </li>
+                            <li class="next">
+                                <a href-void>Next</a>
+                            </li>
+                        </ul>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="s2">
+                    <h1> Search <span class="semi-bold">Users</span></h1>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <input class="form-control input-lg" type="text" placeholder="Search again..." id="search-user" ng-model="vm.searchText">
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default" ng-click="vm.searchUser()">
+                                <i class="fa fa-fw fa-search fa-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <h1 class="font-md"> Search Results for <span class="semi-bold">Users</span><small class="text-danger"> &#xA0;&#xA0;({{vm.searchResponse.totalFound}} results)</small></h1>
+                    <br>
+                    <div class="table-responsive">
+                        <table id="resultTable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width:30px">Avatar</th>
+                                    <th>F.Name</th>
+                                    <th>L.Name</th>
+                                    <th>UUPIC</th>
+                                    <th>Email / Username</th>
+                                    <th>Phone</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in vm.searchResponse.results|filter:vm.isUser" ng-class="{'danger': user.entity.isActive === false} ">
+                                    <td>
+                                        <img ng-if="item.entity.avatar == null" ng-src="{{item.entity.genericImageUrl}}" alt="{{entity.entity.name}}" width="25 class=" online">
+                                        <img ng-if="item.entity.avatar != null" ng-src="{{item.entity.avatar.smallImageUrl}}" alt="{{entity.entity.name}}" width="25 class=" online" />
+                                    </td>
+                                    <td>{{item.entity.firstName}}</td>
+                                    <td>{{item.entity.lastName}}</td>
+                                    <td>{{item.entity.uupic}}</td>
+                                    <td>{{item.entity.emailAddress}} <a href-void class="pull-right"><i class="fa fa-key"></i></a></td>
+                                    <td>{{item.entity.officeNumber}}</td>
+                                    <td>
+                                        <span ng-show="item.entity.isActive" class="label label-success">Active</span>
+                                        <span ng-hide="item.entity.isActive" class="label label-danger">Disabled</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center">
+                        <hr>
+                        <ul class="pagination no-margin">
+                            <li class="prev disabled">
+                                <a href-void>Previous</a>
+                            </li>
+                            <li ng-repeat="pageNumber in vm.searchResponse.pageNumbers" ng-class="{'active': pageNumber === vm.vm.searchResponse.currentPage} ">
+                                <span ng-click="vm.loadPage(pageNumber)">{{pageNumber}}</span>
+                            </li>
+                            <li class="next">
+                                <a href-void>Next</a>
+                            </li>
+                        </ul>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="s3">
+                    <h1> Search <span class="semi-bold">history</span></h1>
+                    <p class="alert alert-info">
+                        Your search history is turned off.
+                    </p>
+                    <span class="onoffswitch-title">Auto save Search History</span>
+                    <span class="onoffswitch">
+                        <input type="checkbox" name="save_history" class="onoffswitch-checkbox" id="save_history" checked="checked">
+                        <label class="onoffswitch-label" for="save_history"> <span class="onoffswitch-inner" data-swchon-text="ON" data-swchoff-text="OFF"></span> <span class="onoffswitch-switch"></span> </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+</div>

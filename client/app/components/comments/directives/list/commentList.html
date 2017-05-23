@@ -1,0 +1,34 @@
+﻿<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <form method="post" class="well padding-bottom-10" onsubmit="return false;">
+            <div ng-if="allowEdit">
+                <textarea rows="2" class="form-control" placeholder="What are you thinking?" ng-model="comment.text"></textarea>
+
+                <div class="margin-top-10">
+                    <button class="btn btn-sm btn-primary pull-right" ng-click="save()" ng-show="comment.text != null">
+                        Post
+                    </button>
+                    <!--<a href-void class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom"
+                       title="Add Location"><i class="fa fa-location-arrow"></i></a>
+                    <a href-void class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom"
+                       title="Add Voice"><i class="fa fa-microphone"></i></a>
+                    <a href-void class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom"
+                       title="Add Photo"><i class="fa fa-camera"></i></a>-->
+                    <!--<a href-void class="btn btn-link profile-link-btn" rel="tooltip" data-placement="bottom" title="Add File" ng-click="addFile()">
+                        <i class="fa fa-file"></i>
+                    </a>-->
+                </div>
+            </div>
+            <div ng-if="!allowEdit">
+                <div class="alert alert-info fade in">
+                    <i class="fa-fw fa fa-info"></i><strong>Sorry:</strong>
+                    You do not have permission to comment on this item.
+                </div>
+
+            </div>
+        </form>
+        <span ng-repeat="commentEntry in comments | orderBy: commentEntry.id : reverse">
+            <comment comment-data="commentEntry" remove-fn="remove(commentEntry)" edit-fn="edit(commentEntry)"  data-entity-reference="entityReference"></comment>
+        </span>
+    </div>
+</div>

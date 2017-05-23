@@ -1,0 +1,97 @@
+﻿<div id="content">
+    <section id="projects" class="mainbar">
+        <section id="widget-grid" data-widget-grid>
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="jarviswidget jarviswidget-color-darken" id="virtualFolders_tree"
+                         data-widget-editbutton="false" data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-folder-open yellow"></i> </span>
+                            <h2>Virtual Folders </h2>
+                        </header>
+
+                        <!-- widget div-->
+                        <div>
+
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as drop down edit box -->
+
+                            </div>
+                            <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body" style="overflow-x:auto; height:900px; overflow:auto;">
+                                <tree-view data-show-archived="vm.treeView.showArchived"></tree-view>
+                                <br />
+                                <form action="" class="smart-form ng-pristine" ng-hide="vm.state.isLoading">
+                                    <footer>
+                                        <a class="btn btn-info pull-right" ng-click="vm.addVirtualTree()">
+                                            <i class="glyphicon glyphicon-tree-deciduous green"></i>
+                                            Add Tree
+                                        </a>
+                                        <a class="btn btn-default pull-right" ng-click="vm.toogleArchived()">
+                                            <i class="glyphicon glyphicon-adjust"></i>
+                                            {{vm.treeView.archiveBtnText}}
+                                        </a>
+                                    </footer>
+                                </form>
+                            </div>
+                            <!-- end widget content -->
+                        </div>
+                        <!-- end widget div -->
+
+                    </div>
+                </div>
+                <div ui-view="virtualContent" class="col-sm-7">
+                    <div>
+                        <div class="col-sm-12 col-md-12 col-lg-12">
+                            <div class="jarviswidget jarviswidget-color-darken" id="virtualFolders_info" data-widget-editbutton="false" data-widget-deletebutton="false">
+                                <header role="heading">
+                                    <h2> Info </h2>
+                                </header>
+                                <!-- widget div-->
+                                <div>
+
+                                    <!-- widget edit box -->
+                                    <div class="jarviswidget-editbox">
+                                        <!-- This area used as drop down edit box -->
+
+                                    </div>
+                                    <!-- end widget edit box -->
+                                    <!-- widget content -->
+                                    <div class="widget-body">
+                                        <h1>
+                                            Welcome to the new and improved Virtual Folders!
+                                        </h1>
+                                        <br />
+
+                                        Detailed instructions and feature overviews are pending.
+                                        <ul>
+                                            <li>To get started.  Please select an item on the left.</li>
+                                            <li>To expand a tree or folder select the horizontal triangle to the left of the item.</li>
+                                            <li>To see item details click the icon and/or item title.  Detailed information will display in the "info" section on the right..</li>
+                                            <li>To create a new tree click the "Add Tree" button on the bottom of the Virtual Folders panel</li>
+                                            <li>To create a new folder, shared file, photo or link right click on a select the appropriate "Insert" selection.</li>
+                                            <li>To edit your security settings select the "Security" Tab then click the "Security Wizard" button.</li>
+                                            <li>To view/edit/attach files select the "File Container" Tab.</li>
+                                            <li>To add or view comments select the "Comment" Tab.</li>
+                                            <li>To get notifications about updates select the "Follower" Tab.</li>
+                                        </ul>
+
+
+                                        <br>
+                                        If you run into any problems please contact Andre Young on 301-286-2613 or <a mailto:Andre.j.Young@nasa.gov>Andre.J.Young@nasa.gov</a>.
+
+                                    </div>
+                                    <!-- end widget content -->
+                                </div>
+                                <!-- end widget div -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>

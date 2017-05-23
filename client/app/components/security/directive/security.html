@@ -1,0 +1,487 @@
+﻿<form class="smart-form ng-pristine ng-valid">
+    <div ng-switch on="state.view">
+
+        <div class="row" ng-switch-when="viewAccess">
+            <div class="text-center text-info" ng-show="state.isLoading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <br />
+                        <h1><i class="fa fa-spinner fa-spin blue"></i> Retrieving security rules ...</h1>
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="text-info" ng-hide="state.isLoading">
+                <div class="row">
+                    <div class="col-md-12 text-center" ng-hide="securityRules.length>0">
+                        No security rules found.
+                    </div>
+                </div>
+                <div class="alert alert-info fade in" ng-show="state.progressBanner.active">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-info"></i>
+                    <strong>Progress:</strong><i class="fa fa-spinner fa-spin blue"></i> {{state.progressBanner.msg}}
+                </div>
+                <table class="table table-condensed text-left" ng-if="securityRules.length > 0">
+                    <tbody>
+                        <tr ng-if="securityTag.deniedAttributes.length>0">
+                            <th colspan="4">Access is <span class="txt-color-red">DENIED</span> to ALL of the following:</th>
+                        </tr>
+                        <tr ng-if="securityTag.deniedAttributes.length>0">
+                            <td>
+                                <ul class="security-rule-list">
+                                    <li data-ng-repeat="g in securityTag.deniedAttributes">
+                                        <div ng-if="allowEdit" class="pull-right">
+                                            <span ng-click="removeSecurityRule(g)">
+                                                <i class="fa fa-trash-o fa-lg"></i>
+                                                <u>{{g.deleteText}}</u>
+                                            </span>
+                                        </div>
+                                        {{::g.securityRuleText}}
+                                        <span ng-if="g.entityCompositeKey !== entityCompositeKey" class="text-info">
+                                            *
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr ng-if="securityTag.requiredAttributes.length>0">
+                            <th colspan="4" class="bold">
+                                To access this item you must satisfy <span class="txt-color-red">ALL</span> of the following:
+                            </th>
+                        </tr>
+                        <tr ng-if="securityTag.requiredAttributes.length>0">
+                            <td>
+                                <ul class="security-rule-list">
+                                    <li data-ng-repeat="g in securityTag.requiredAttributes">
+                                        <div ng-if="allowEdit" class="pull-right">
+                                            <a ng-click="removeSecurityRule(g)">
+                                                <i class="fa fa-trash-o fa-lg"></i>
+                                                {{g.deleteText}}
+                                            </a>
+                                        </div>
+                                        {{::g.securityRuleText}}
+                                        <span ng-if="g.entityCompositeKey !== entityCompositeKey" class="text-info">
+                                            *
+                                        </span>
+                                    </li>
+
+                                </ul>
+                            </td>
+                        </tr>
+
+                        <tr ng-if="securityTag.optionalAttributes.length>0">
+                            <th colspan="4">To access this item you must satisfy <span class="txt-color-red">AT LEAST ONE</span> of the following:</th>
+                        </tr>
+                        <tr ng-if="securityTag.optionalAttributes.length>0">
+                            <td>
+                                <p>
+                                    <ul class="security-rule-list">
+                                        <li data-ng-repeat="g in securityTag.optionalAttributes">
+                                            <div ng-if="allowEdit" class="pull-right">
+                                                <span ng-click="removeSecurityRule(g)">
+                                                    <i class="fa fa-trash-o fa-lg"></i>
+                                                    <u>{{g.deleteText}}</u>
+                                                </span>
+                                            </div>
+                                            {{::g.securityRuleText}}
+                                            <span ng-if="g.entityCompositeKey !== entityCompositeKey" class="text-info">
+                                                *
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                * Inherited access rule from a parent.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="widget-foot">
+                <div class="clearfix"></div>
+            </div>
+        </div>
+
+        <div ng-switch-when="viewSecurityPermissions">
+            <h2>View Security Permissions</h2>
+            <br />
+            <security-permissions data-entity-composite-key="entityCompositeKey" data-allow-edit="allowEdit"></security-permissions>
+        </div>
+
+        <div ng-switch-when="editSecurityPermission">
+
+            <h2>Modify Security Permission</h2>
+
+            <fieldset>
+                <div class="row">
+                    <section class="col col-12">
+                        <label class="label">Grant/Deny Access</label>
+                        <input type="radio" ng-model="newSecurityPermission.permissionType" ng-value="1" checked> Grant {{newSecurityPermission.actor.name}} permission to {{newSecurityPermission.name}} feature
+                        <br />
+                        <input type="radio" ng-model="newSecurityPermission.permissionType" ng-value="-2"> Deny {{newSecurityPermission.actor.name}} permission to {{newSecurityPermission.name}} feature
+                    </section>
+                </div>
+                <div class="row">
+                    <section class="col col-6">
+                        <label class="select">
+                            <label class="label">
+                                Actor
+                                <span class="right">
+                                    <span ng-repeat="type in options.ruleTypes">
+                                        <input type="radio" ng-model="selectedSecurityRule.type" ng-value="type" ng-change="actorTypeUpdated(selectedSecurityRule.type)"> {{type.label}}
+                                    </span>
+                                </span>
+                            </label>
+                            <select class="input-lg"
+                                    ng-model="newSecurityPermission.actor"
+                                    data-ng-options="opt.name for opt in options.filteredActors | orderBy:'name'"></select>
+                        </label>
+                    </section>
+                    <section class="col col-6">
+                        <label class="label">Feature</label>
+                        <label class="select">
+                            <select class="input-lg"
+                                    ng-model="newSecurityPermission.name"
+                                    data-ng-options="opt for opt in options.featureOptions"></select>
+                        </label>
+                    </section>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <footer>
+        <div ng-switch on="state.view">
+            <div ng-switch-when="viewAccess">
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalWizard" ng-click="primeWizard(securityRules)" ng-if="allowEdit">
+                    Access Wizard
+                </button>
+                <button type="button" class="btn btn-default pull-right" ng-click="toggleDisplay('viewSecurityPermissions')">Security Permissions</button>
+                <button class="btn btn-default" data-toggle="modal" data-target="#modalClearedUsers" ng-click="displayClearedUsers()">View Allowed Users</button>
+                <clear-cache-button data-entity-composite-key="entityCompositeKey"></clear-cache-button>
+            </div>
+            <div ng-switch-when="viewSecurityPermissions">
+                <button type="button" class="btn btn-success pull-right" ng-click="toggleDisplay('editSecurityPermission')" ng-if="allowEdit">Add Security Permission</button>
+                <button type="button" class="btn btn-default pull-right" ng-click="toggleDisplay('viewAccess')">Access Rules </button>
+            </div>
+
+            <div ng-switch-when="editSecurityPermission">
+                <button type="button" class="btn btn-success pull-right" ng-click="saveSecurityPermission(newSecurityPermission)"><i class="fa fa-save"></i> Save Security Permission</button>
+                <button type="button" class="btn btn-default pull-right" ng-click="toggleDisplay('viewSecurityPermissions')">Security Permissions</button>
+                <button type="button" class="btn btn-default pull-right" ng-click="toggleDisplay('viewAccess')">Access Rules </button>
+            </div>
+
+        </div>
+    </footer>
+
+</form>
+
+<div id="modalWizard" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Security Wizard</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-switch on="wizard.step">
+
+                    <div ng-switch-when="1">
+                        <h3>Step #1: Actor Selection</h3>
+                        <p>
+                            This wizard will help you set up security for your item. We will start with who (actor[s])
+                            you would like to <b>grant</b> or <b>deny</b> access to.  <b>Drag and drop</b> the actors from the "Actors Pool"
+                            [the column on the left] to the "Selected Actors" [the column on the right].  You may also <b>de</b>-select
+                            actors by moving them "Selected Actors" to the "Actors Pool"
+                        </p>
+                        <div class="simpleDemo row">
+                            <div class="col-sm-6">
+                                <fieldset>
+                                    <h2>Actors Pool</h2>
+                                    <form class="smart-form">
+                                        <div class="inline-group fullWidth">
+                                            <label class="checkbox" ng-repeat="actorType in wizard.unSelected.actorTypes">
+                                                <input type="checkbox" name="checkbox-inline" ng-model="actorType.isSelected" checked="checked" ng-change="wizard.unSelectedFilter(wizard.unSelected)">
+                                                <i></i>{{::actorType.label}}
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <input type="text" class="fullWidth" ng-model="wizard.unSelected.filterText" placeholder="Filter actors" ng-change="wizard.unSelectedFilter(wizard.unSelected)" />
+                                    <br />
+                                    <br />
+                                    <ul dnd-list="wizard.unSelected.visibleRules">
+                                        <li ng-repeat="rule in wizard.unSelected.visibleRules"
+                                            dnd-draggable="rule"
+                                            dnd-moved="wizard.moved(wizard.unSelected, rule)"
+                                            dnd-effect-allowed="move"
+                                            dnd-selected="models.selected = rule"
+                                            ng-class="{'selected': models.selected === rule}">
+                                            <avatar data-actor="rule.actor" data-size="wizard.avatarSize"></avatar>
+                                            {{::rule.actor.name}}
+                                        </li>
+                                    </ul>
+                                </fieldset>
+                            </div>
+                            <div class="col-sm-6">
+                                <fieldset>
+                                    <h2>Selected Actors</h2>
+                                    <form class="smart-form">
+                                        <div class="inline-group">
+                                            <div class="inline-group">
+                                                <label class="checkbox" ng-repeat="actorType in wizard.selected.actorTypes">
+                                                    <input type="checkbox" name="checkbox-inline" ng-model="actorType.isSelected" checked="checked" ng-change="wizard.actorFilter(wizard.selected)">
+                                                    <i></i>{{::actorType.label}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <input type="text" class="fullWidth" ng-model="wizard.selected.filterText" placeholder="Filter selected actors" ng-change="wizard.actorFilter(wizard.selected)" />
+                                    <br />
+                                    <br />
+                                    <ul dnd-list="wizard.selected.visibleRules">
+                                        <li ng-repeat="rule in wizard.selected.visibleRules"
+                                            dnd-draggable="rule"
+                                            dnd-moved="wizard.moved(wizard.selected, rule)"
+                                            dnd-effect-allowed="move"
+                                            dnd-selected="models.selected = rule"
+                                            ng-class="{'selected': models.selected === rule}">
+                                            <avatar data-actor="rule.actor" data-size="wizard.avatarSize"></avatar>
+                                            {{::rule.actor.name}}
+                                        </li>
+                                    </ul>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div ng-switch-when="2">
+                        <h3>Step #2: Security Level</h3>
+                        In this step we will group the actors you have selected into security categories.  <b>Drag and drop</b> the actors into the category you want them to appear in.
+                        <ul>
+                            <li><span class="txt-color-red">DENIED</span> <i class="fa fa-arrow-right"></i> Any actors added to this list will be denied access.</li>
+                            <li><span class="txt-color-red">REQUIRED</span> <i class="fa fa-arrow-right"></i> To gain access a user must satisfy <b>ALL</b> of rules in this category</li>
+                            <li><span class="txt-color-red">OPTIONAL</span> <i class="fa fa-arrow-right"></i> To gain access a user must satisfy <b>AT LEAST ONE</b> of the rules in this category </li>
+                        </ul>
+                        <div class="row simpleDemo">
+                            <div class="col-md-4">
+                                <span class="txt-color-red">DENIED</span>
+                                <ul dnd-list="wizard.selected.denied">
+                                    <li ng-repeat="rule in wizard.selected.denied"
+                                        dnd-draggable="rule"
+                                        dnd-moved="wizard.assignCategory(wizard.selected.denied, rule)"
+                                        dnd-effect-allowed="move"
+                                        dnd-selected="models.selected = rule"
+                                        ng-class="{'selected': models.selected === rule}">
+                                        <avatar data-actor="rule.actor" data-size="wizard.avatarSize"></avatar>
+                                        {{::rule.actor.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="txt-color-red">OPTIONAL</span>
+                                <ul dnd-list="wizard.selected.optional">
+                                    <li ng-repeat="rule in wizard.selected.optional"
+                                        dnd-draggable="rule"
+                                        dnd-moved="wizard.assignCategory(wizard.selected.optional, rule)"
+                                        dnd-effect-allowed="move"
+                                        dnd-selected="models.selected = rule"
+                                        ng-class="{'selected': models.selected === rule}">
+                                        <avatar data-actor="rule.actor" data-size="wizard.avatarSize"></avatar>
+                                        {{::rule.actor.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <span class="txt-color-red">REQUIRED</span>
+                                <ul dnd-list="wizard.selected.required">
+                                    <li ng-repeat="rule in wizard.selected.required"
+                                        dnd-draggable="rule"
+                                        dnd-moved="wizard.assignCategory(wizard.selected.required, rule)"
+                                        dnd-effect-allowed="move"
+                                        dnd-selected="models.selected = rule"
+                                        ng-class="{'selected': models.selected === rule}">
+                                        <avatar data-actor="rule.actor" data-size="wizard.avatarSize"></avatar>
+                                        {{::rule.actor.name}}
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div ng-switch-when="3">
+                        <h3>Step #3: Expiration Date</h3>
+                        <p>
+                            If you would like any of these permission(s) to expire, select an expiration date below.
+                        </p>
+                        <br />
+                        <div class="wizardHeight">
+                            <table class="table table-stripped">
+                                <tr>
+                                    <th></th>
+                                    <th>Actor</th>
+                                    <th>Rule Type</th>
+                                    <th>Expiration (if applicable)</th>
+                                </tr>
+                                <tr ng-repeat="rule in wizard.selected.rules">
+                                    <td><avatar data-actor="rule.actor" data-size="wizard.avatarSize"></avatar></td>
+                                    <td>{{::rule.actor.name}}</td>
+                                    <td>{{::rule.ruleType}}</td>
+                                    <td>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-calendar" ng-click="openCalendar($event, rule)"></i>
+                                            <input type="text" name="expirationDate" id="expirationDate"
+                                                   uib-datepicker-popup="shortDate"
+                                                   ng-model="rule.expiration"
+                                                   ng-click="openCalendar($event, rule)"
+                                                   placeholder="Expiration Date"
+                                                   is-open="rule.calendarOpened"
+                                                   close-text="Close">
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div ng-switch-when="4">
+                        <h3>Step #4: Preview</h3>
+                        <p>
+                            Please preview the changes you have requested before they are submitted.
+                            If you would like to make any changes click the "Previous" button to back to a previous wizard step.
+                        </p>
+
+                        <br />
+                        <table class="table table-condensed text-left" ng-if="wizard.selected.rules.length > 0">
+                            <tbody>
+                                <tr ng-if="wizard.selected.denied.length>0">
+                                    <th colspan="4"><span class="txt-color-red">DENIED</span> <i class="fa fa-arrow-right"></i> Access is <span class="txt-color-red">DENIED</span> to ALL of the following:</th>
+                                </tr>
+                                <tr ng-if="wizard.selected.denied.length>0">
+                                    <td>
+                                        <ul>
+                                            <li data-ng-repeat="g in wizard.selected.denied">
+                                                {{::g.securityRuleText}}
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr ng-if="wizard.selected.required.length>0">
+                                    <th colspan="4" class="bold">
+                                        <span class="txt-color-red">REQUIRED</span> <i class="fa fa-arrow-right"></i> To access this item you must satisfy <span class="txt-color-red">ALL</span> of the following:
+                                    </th>
+                                </tr>
+                                <tr ng-if="wizard.selected.required.length>0">
+                                    <td>
+                                        <ul>
+                                            <li data-ng-repeat="g in wizard.selected.required | orderBy: 'AttributeCompositeKey'">
+                                                {{::g.securityRuleText}}
+                                            </li>
+
+                                        </ul>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="wizard.selected.optional.length>0">
+                                    <th colspan="4"><span class="txt-color-red">OPTIONAL</span> <i class="fa fa-arrow-right"></i> To access this item you must satisfy <span class="txt-color-red">AT LEAST ONE</span> of the following:</th>
+                                </tr>
+                                <tr ng-if="wizard.selected.optional.length>0">
+                                    <td>
+                                        <p>
+                                            <ul>
+                                                <li data-ng-repeat="g in wizard.selected.optional">
+                                                    {{::g.securityRuleText}}
+                                                </li>
+                                            </ul>
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if="wizard.unSelected.removed.length > 0">
+                                    <th colspan="4"><span class="txt-color-red">REMOVED</span> <i class="fa fa-arrow-right"></i> These will be removed:</th>
+                                </tr>
+                                <tr ng-if="wizard.unSelected.removed.length > 0">
+                                    <td>
+                                        <p>
+                                            <ul>
+                                                <li data-ng-repeat="g in wizard.unSelected.removed">
+                                                    {{::g.securityRuleText}}
+                                                </li>
+                                            </ul>
+                                        </p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div ng-switch-when="5">
+                        <h3>
+                            Step #5: Complete
+                        </h3>
+                        <p class="font-xl text-center text-success">
+                            Your security has been updated.  Click the exit or close button below.
+                            <button class="btn btn-success" data-dismiss="modal">Exit</button>
+                        </p>
+
+                        <br />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-if="wizard.step > 1" ng-click="wizard.prevStep(wizard)">Previous</button>
+                <button type="button" class="btn btn-success" ng-if="wizard.step < 4" ng-click="wizard.nextStep(wizard)">Next</button>
+                <button type="button" class="btn btn-success" ng-if="wizard.step === 4" ng-click="wizard.submit(entityCompositeKey, wizard)">{{wizard.submitText}}</button>
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalClearedUsers" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Cleared Actors</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-show="retrievingClearedUsers">
+                    <h2><i class="fa fa-spinner fa-spin blue"></i> Retrieving cleared actors from the server ...</h2>
+                </div>
+                <div ng-show="!retrievingClearedUsers">
+                    <div ng-if="clearedUsers != null">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <lable>Filter</lable>
+                                <input class="input-lg" style="width:98%" ng-model="searchText" placeholder="Filter cleared actors" />
+                            </div>
+                            <br />
+                            <hr />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6" ng-repeat="actor in clearedUsers | filter:searchText">
+                                <avatar data-actor="actor"></avatar>
+                                {{::actor.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="clearedUsers == null">
+                        <h4>There are no cleared actors.</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

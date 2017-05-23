@@ -1,0 +1,134 @@
+﻿<div>
+    <div class="row" ng-show="vm.allowEdit">
+        <div class="col-md-12">
+            The following actors will be notified of changes to this item.
+            <ul>
+                <li>Click "Add Followers" to add actor(s) to the notification list.</li>
+                <li>Click "Save Changes" to store follower changes to the database.</li>
+                <li>Click "Remove" to remove an actor from the notification list.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-show="vm.state.isLoading">
+            <div class="row">
+                <div class="col-md-12 text-center text-info">
+                    <h1><i class="fa fa-spinner fa-spin blue"></i> Loading results ... </h1>
+                </div>
+            </div>
+        </div>
+        <div ng-hide="vm.state.isLoading">
+            <div class="row">
+                <div class="col-md-12 text-center text-info" ng-if="vm.followers.length === 0">
+                    <h1>No followers found.</h1>
+                </div>
+                <span class="col-sm-12 col-md-6" data-ng-repeat="follower in vm.followers | orderBy: 'follower.actor.name'">
+                    <follower follower-data="follower" remove-fn="vm.remove(follower)"></follower>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="vm.state.displayButtonArea">
+        <form action="" class="smart-form ng-pristine" ng-hide="vm.state.isLoading">
+            <footer>
+                <div ng-show="vm.allowEdit">
+                    <a class="btn btn-primary pull-right" data-toggle="modal" data-target="#followrActorModal" ng-click="vm.getActors()">
+                        Add Followers
+                    </a>
+                    <a class="btn btn-info pull-right bounce animated" ng-click="vm.saveChanges()" ng-if="vm.state.isChangedDetected"><i class="fa fa-save"></i> Save Changes</a>
+                </div>
+                <a class="btn btn-primary pull-right" ng-click="vm.follow()" ng-if="vm.state.alreadyFollowing == false">
+                    Follow
+                </a>
+            </footer>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="followrActorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="vm.clearActors()">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Follower Options</h4>
+            </div>
+            <div class="modal-body">
+                <div class="widget-body">
+                    <form class="smart-form ng-pristine ng-valid">
+                        <div class="row">
+                            <section class="col col-6">
+                                <label class="label">Actor Name Filter</label>
+                                <label class="input">
+                                    <input type="text" class="input-lg" placeholder="Actor Filter" data-ng-model="vm.state.actorFilter" ng-change="vm.filterActors()">
+                                </label>
+                            </section>
+                            <section class="col col-4">
+                                <label class="label">Actor Type Filter </label>
+                                <label class="select">
+                                    <select class="input-lg"
+                                            ng-model="vm.selectedActorType"
+                                            ng-change="vm.filterActors()"
+                                            data-ng-options="opt.name for opt in vm.actorTypes"></select>
+                                </label>
+                            </section>
+                            <section class="col col-2">
+                                <label class="label">Page</label>
+                                <label class="select">
+                                    <select name="page" class="input-lg" ng-model="vm.selectedPage" ng-options="page for page in vm.state.pages" ng-change="vm.setPage(vm.selectedPage)"></select>
+                                    <i></i>
+                                </label>
+                            </section>
+                            <section class="col col-12 pull-right">
+                                <button type="button" class="btn btn-lg btn-default" data-dismiss="modal" ng-click="vm.clearActors()">
+                                    Cancel
+                                </button>
+                                <button type="button" class="btn btn-lg btn-primary" data-dismiss="modal" ng-click="vm.saveChanges()">
+                                    Save
+                                </button>
+
+                            </section>
+                        </div>
+                        <div class="row">
+                            <div class="col col-6" data-ng-repeat="actor in vm.filteredActors" ng-click="vm.selectActor(actor)">
+                                <section class="row well well-sm well-light no-padding">
+                                    <div class="bg-color-greenLight fade in" style="color:whitesmoke" ng-show="actor.isSelected">
+                                        <i class="fa-fw fa fa-check"></i>
+                                        <strong> selected.</strong>
+                                    </div>
+                                    <div ng-show="!actor.isSelected">
+                                        <strong> &nbsp;</strong>
+                                    </div>
+                                    <section class="col col-4">
+                                        <avatar data-actor="actor"></avatar>
+                                    </section>
+                                    <section class="col col-8">
+                                        <span class="text-info font-md">{{::actor.name}}</span>
+                                        <br />
+                                        {{::actor.classType}}
+                                        <br />
+                                        {{::actor.description}}
+                                        <br />
+                                    </section>
+                                </section>
+                                <br />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clearActors()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="vm.saveChanges()">
+                    Save
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!--<actor-selection-list data-all-actor-options="vm.actors" data-selected-actors="vm.selectedActors" data-title="vm.modalTitle" data-on-update="vm.selectActor"></actor-selection-list>-->

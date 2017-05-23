@@ -1,0 +1,208 @@
+﻿<div id="content">
+    <section id="projects" class="mainbar">
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+                <h2>User Edit </h2>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as drop down edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div>
+                        <div class="row">
+                            <section class="col col-sm-3">
+                                <img ng-if="vm.user.avatar == null" ng-src="{{vm.user.genericImageUrl}}" alt="{{vm.user.name}}" height="350" width="300" class="online" />
+                                <img ng-if="vm.user.avatar != null" ng-src="{{vm.user.avatar.largeImageUrl}}" alt="{{vm.user.name}}" height="350" width="300" class="online" />
+                            </section>
+                            <section class="col col-sm-3">
+                                <div class="dropzone dz-clickable" style="height:350px; width:280px" id="userAvatar">
+                                </div>
+                            </section>
+                            <div class="col-sm-6">
+                                First Name:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="First Name" type="text" name="firstName" id="firstName" data-ng-model="vm.user.firstName" ng-disabled="!vm.security.allowMetaDataEdit">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                Last Name:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="Last Name" type="text" name="lastName" id="lastName" data-ng-model="vm.user.lastName" ng-disabled="!vm.security.allowMetaDataEdit">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                Phone
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-phone fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="301-286-XXXX" type="text" name="phone" id="phone" data-ng-model="vm.user.mobileNumber" ng-disabled="!vm.security.allowMetaDataEdit">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                Email
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-envelope fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="email@address.com" type="text" name="email" id="email" data-ng-model="vm.user.emailAddress" ng-disabled="!vm.security.allowMetaDataEdit">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                AuID:<br />
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-windows fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="AuID" type="text" name="auId" id="auId" data-ng-model="vm.user.auId" ng-disabled="!vm.security.allowMetaDataEdit">
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="col col-sm-6">
+                                Gender
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-female fa-lg fa-fw"></i></span>
+                                        <select name="gender" class="form-control input-lg" ng-model="vm.user.gender" ng-disabled="!vm.security.allowMetaDataEdit">
+                                            <option value="Female">Female</option>
+                                            <option value="Male">Male</option>
+                                            <option value="">Prefer not to answer</option>
+                                        </select> <i></i>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="col-sm-6">
+                                UUPIC:<br />
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-rocket fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="UUPIC" type="text" name="uupic" id="uupic" data-ng-model="vm.user.uupic" ng-disabled="!vm.security.allowMetaDataEdit">
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="col col-sm-6">
+                                State
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.user.isActive" required ng-options="opt.value as opt.name for opt in vm.activeOptions" ng-disabled="!vm.security.allowMetaDataEdit"></select>
+                                        <i></i>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                        <section class="col col-sm-12">
+                            Description
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-pencil fa-lg fa-fw"></i></span>
+                                    <textarea class="form-control input-lg" placeholder="Description" name="description" id="description" data-ng-model="vm.user.description" ng-disabled="!vm.security.allowMetaDataEdit"></textarea>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.save()" data-dismiss="modal" ng-if="vm.security.allowMetaDataEdit">Save</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+
+        <div jarvis-widget id="users-item-support" data-widget-editbutton="false" data-widget-deletebutton="false" ng-if="vm.user.id > 0">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                            <i class="fa fa-lg fa-file-text"></i>
+                            <span class="hidden-mobile hidden-tablet"> File Container </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-security" data-secured-features="vm.options.availableFeatures">
+                            <i class="fa fa-lg fa-lock"></i>
+                            <span class="hidden-mobile hidden-tablet"> Security </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">Follower</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">Comment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-changeHistory">
+                            <i class="fa fa-lg fa-code-fork"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Change History
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as drop down edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer">
+                            <file-container data-entity-composite-key="vm.user.compositeKey" data-entity-reference="vm.user" data-allow-edit="vm.security.allowFileContainer"></file-container>
+                        </div>
+                        <div class="tab-pane active" id="supportItem-security" name="supportItem-security">
+                            <div class="alert alert-info fade in">
+                                <i class="fa-fw fa fa-info"></i><strong>Info:</strong>
+                                Users can edit their own data.
+                            </div>
+                            <symphony-security data-entity-composite-key="vm.user.compositeKey" data-parentkey="vm.user.parentKey" data-allow-edit="vm.security.allowSecurity"></symphony-security>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.user.compositeKey" data-allow-edit="vm.security.allowFollowers"></follower-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.user.compositeKey" data-entity-reference="vm.user" data-allow-edit="vm.security.allowComments"></comment-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-changeHistory" name="supportItem-changeHistory">
+                            <change-history data-entity-composite-key="vm.user.compositeKey" data-entity-reference="vm.user"></change-history>
+                        </div>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+    </section>
+</div>

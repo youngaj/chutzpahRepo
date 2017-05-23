@@ -1,0 +1,12 @@
+<div class="login-info ng-cloak">
+    <span>
+        <!-- User image size is adjusted inside CSS, it should stay as it -->
+        <a ng-click="vm.goToUserProfile(vm.user)">
+            <avatar data-actor="vm.user"></avatar>
+            <span>
+                {{::vm.user.name}}
+            </span>
+            <i class="fa fa-angle-down"></i>
+        </a>
+    </span>
+</div>

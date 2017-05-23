@@ -1,0 +1,203 @@
+﻿<div>
+    <form action="" class="smart-form">
+        <div class="text-info animate-switch-container">
+            <div class="content">
+                <div class="widget-body padding-10">
+                    <fieldset>
+                        <div id="uploadView" ng-hide="container.activeView !== 'uploadView'">
+                            <div class="dropzone dz-clickable" id="uploadContainer_{{ container.id }}">
+                                <!--<div class="dz-default dz-message">
+                                    <span>Drop files here to upload</span>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div ng-show="container.activeView === 'iconView'">
+                            <div class="content">
+                                <div class="row">
+                                    <ul class="inbox-download-list">
+                                        <li data-ng-repeat="primaryFile in latestRevisions">
+                                            <div class="well well-sm" style="padding:10px">
+                                                <span ng-if="primaryFile.revision !== 0">
+                                                    <i style="padding-top:5px" class="fa fa-files-o" ng-click="displayRevisions(primaryFile)" data-toggle="modal" data-target="#modalRevisionLister"></i>
+                                                </span>
+                                                <span ng-if="primaryFile.revision === 0">
+                                                    <img ng-src="{{::primaryFile.thumbnailImageUrl}}"
+                                                         alt="{{::primaryFile.name}}"
+                                                         width="150" height="150"
+                                                         ng-if="primaryFile.hasThumbnail"
+                                                         data-toggle="modal"
+                                                         data-target="#modalImagePreviewer"
+                                                         ng-click="selectFile(primaryFile)" />
+                                                    <i style="padding-top:5px" class="fa fa-file" ng-if="!primaryFile.hasThumbnail"></i>
+                                                </span>
+                                                <br>
+                                                <strong>
+                                                    {{ primaryFile.name }} Rev-<span ng-if="primaryFile.revision > 0">{{primaryFile.revision}}</span>
+                                                    {{ primaryFile.state }}
+                                                </strong>
+                                                <br>
+                                                {{ primaryFile.size }} (MB)
+                                                <br>
+                                                <a ng-click="downloadSelectedFile(primaryFile)">
+                                                    <i class="fa fa-cloud-download"></i> Download
+                                                </a>
+                                                |
+                                                <a ng-click="deleteFile(primaryFile)" ng-if="allowEdit">
+                                                    <i class="fa fa-trash-o fa-lg"></i> Delete
+                                                </a>
+                                                <a ng-click="selectFile(primaryFile)"
+                                                   ng-if="allowEdit"
+                                                   data-toggle="modal"
+                                                   data-target="#modalFileMetadata">
+                                                    <i class="fa fa-pencil fa-lg"></i> Edit
+                                                </a>
+                                                |
+                                                <a ng-click="displayRevisions(primaryFile)" data-toggle="modal" data-target="#modalRevisionLister">
+                                                    <i class="fa fa-files-o fa-lg"></i>
+                                                    <span ng-show="primaryFile.revision === 0">Add Revision</span>
+                                                    <span ng-show="primaryFile.revision > 0">{{primaryFile.revision}} Revision(s)</span>
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <footer>
+                        <div ng-show="container.activeView === 'iconView'">
+                            <button type="button" class="btn btn-primary pull-right" ng-click="updateContainerView(container, 'uploadView')" ng-if="allowEdit"> Upload Files </button>
+                        </div>
+                        <div ng-show="container.activeView === 'uploadView'">
+                            <button type="button" class="btn btn-info pull-right" ng-click="updateContainerView(container, 'iconView')">View Icons </button>
+                            <button type="button" class="btn btn-primary pull-right" ng-click="submitFiles()" ng-show="autoProcess !== true"> Submit </button>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <!-- end widget div -->
+    </form>
+</div>
+
+<div id="modalRevisionLister" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                <h4 class="modal-title">
+                    Revisions related to <b>{{selectedRevision.name}}</b>.
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="revisionView ==='upload'">
+                    <file-revision data-entity-composite-key="entityCompositeKey"
+                                   data-container="container"
+                                   data-entity-reference="entityReference"
+                                   data-original-file="selectedRevision"
+                                   data-revision-view="revisionView">
+                    </file-revision>
+                </div>
+                <div ng-if="revisionView !=='upload'">
+                    <form action="" class="smart-form">
+                        <ul class="inbox-download-list">
+                            <li data-ng-repeat="rev in revisions">
+                                <div class="well well-sm" style="padding:10px">
+                                    <span>
+                                        <img ng-src="{{::rev.thumbnailImageUrl}}"
+                                             alt="{{::rev.name}}"
+                                             width="150" height="150"
+                                             ng-if="rev.hasThumbnail"
+                                             data-toggle="modal"
+                                             data-target="#modalImagePreviewer"
+                                             ng-click="selectFile(rev)" />
+                                        <i style="padding-top:5px" class="fa fa-file" ng-if="!rev.hasThumbnail"></i>
+                                    </span>
+                                    <br>
+                                    <strong>
+                                        {{ rev.name }} Rev-<span ng-if="rev.revision > 0">{{rev.revision}}</span>
+                                        {{rev.state}}
+                                    </strong>
+                                    <br>
+                                    {{ rev.size }} (MB)
+                                    <br>
+                                    <a ng-click="downloadSelectedFile(rev)">
+                                        <i class="fa fa-cloud-download"></i> Download
+                                    </a>
+                                    |
+                                    <a ng-click="deleteFile(rev)" ng-if="allowEdit">
+                                        <i class="fa fa-trash-o fa-lg"></i> Delete
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" ng-click="revisionView='upload'" ng-show="revisionView!=='upload'">Upload Another Revision</button>
+                <button class="btn btn-default" ng-click="revisionView='view'" ng-hide="revisionView!=='upload'">Files</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalImagePreviewer" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                <h4 class="modal-title">
+                    Image Viewer for <b>{{selectedFile.name}}</b>.
+                </h4>
+            </div>
+            <div class="modal-body">
+                <img ng-src="{{selectedFile.previewImageUrl}}"
+                     alt="{{selectedFile.name}}"
+                     width="600" height="600" />
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalFileMetadata" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                <h4 class="modal-title">
+                    Metadata for <b>{{selectedFile.name}}</b>.
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form action="" class="smart-form">
+                    <fieldset>
+                        <section class="col-12">
+                            <label class="label">Title <span class="txt-color-red">*</span></label>
+                            <label class="input" ng-class="{'state-error':!selectedFile.name.length}">
+                                <input type="text" name="title" class="input-lg" placeholder="Title" data-ng-model="selectedFile.name" required disabled>
+                            </label>
+                            <div class="note note-error" ng-show="!selectedFile.name.length">
+                                This is a required field.
+                            </div>
+                        </section>
+                        <section class="col-12">
+                            <label class="label">Description</label>
+                            <label class="textarea">
+                                <textarea class="form-control" placeholder="Description" name="description" rows="4" data-ng-model="selectedFile.description" ng-disabled="!allowEdit"></textarea>
+                            </label>
+                        </section>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" data-dismiss="modal" ng-click="saveFile(selectedFile)">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

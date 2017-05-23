@@ -1,0 +1,33 @@
+﻿<div id="content">
+    <section id="HardwareList" class="mainbar">
+
+        <div jarvis-widget id="hide-show-columns-table-widget" data-widget-color="blueDark" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-laptop"></i> </span>
+                <h2> Hardware </h2>
+            </header>
+            <div>
+                <div class="widget-body ">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <div class="padding-10">
+                                <div class="input-group">
+                                    <input class="form-control " ng-model="vm.searchText" placeholder="Search / Filter.  Use this section to filter existing hardware">
+                                    <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+                                </div>
+                            </div>
+                            <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                                <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                                {{vm.state.loadingMsg}}
+                            </div>
+
+                            <hardware-list data-list="vm.assets" data-search-text="vm.searchText">
+                            </hardware-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>

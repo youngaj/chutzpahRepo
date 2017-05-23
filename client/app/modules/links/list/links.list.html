@@ -1,0 +1,64 @@
+﻿<div id="content">
+    <section id="Links" class="mainbar">
+
+        <div jarvis-widget id="hide-show-columns-table-widget" data-widget-color="blueDark" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-sliders fa-fw "></i> </span>
+                <h2>Project Links</h2>
+            </header>
+            <div>
+                <div class="widget-body ">
+                    <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                        <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                        {{vm.state.loadingMsg}}
+                    </div>
+
+                    <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.newLink()" data-dismiss="modal">
+                        <i class="fa fa-plus"></i> New Link
+                    </a>
+                    <div class="input-group">
+                        <input class="form-control input-lg" ng-model="search" placeholder="Search for links...">
+                        <span class="input-group-addon"><i class="fa fa-fw fa-lg fa-search"></i></span>
+                    </div>
+                    <br />
+
+                    <ul class="media-list">
+                        <li class="media" ng-repeat="link in vm.links | filter:search">
+                            <div class="media-body">
+                                <a href-void class="btn btn-default pull-right" ng-click="vm.goToDetail(link.id)"><i class="media-object fa fa-pencil"> Edit</i></a>
+                                <h4 class="media-heading"><a ng-href="{{link.href}}">{{::link.text}}</a></h4>
+                                <p>
+                                    <b>URL:</b> {{::link.href}}<br />
+                                    <b>Category:</b> {{::link.category.name}} <br />
+                                    <span ng-if="link.description.length > 0">
+                                        <b>Description:</b> {{::link.description}}
+                                    </span>
+                                </p>
+                                <section ng-if="link.tags.length > 0">
+                                    <b>Tags:</b>
+                                    <span ng-repeat="tag in link.tags">
+                                        <span class="badge bg-color-blueLight">
+                                            &nbsp;{{tag.text}}&nbsp;
+                                        </span>&nbsp;
+                                    </span>
+
+                                </section>
+                            </div>
+                        </li>
+                    </ul>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <div>
+                                <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.newLink()" data-dismiss="modal">New Link</a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+
+    </section>
+</div>

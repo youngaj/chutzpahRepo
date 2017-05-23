@@ -1,0 +1,26 @@
+﻿<h4><a ng-href="{{vm.link.href}}">{{::vm.link.text}}</a></h4>
+<div>
+    <br /> Object Type: {{::vm.link.classType}}
+    <br /> Owner: {{::vm.link.owner.name}}
+    <section ng-if="vm.link.tags.length > 0">
+        <br />
+        <b>Tags:</b>
+        <span ng-repeat="tag in ::vm.link.tags">
+            <span class="badge bg-color-blueLight">
+                &nbsp;{{::tag.text}}&nbsp;
+            </span>&nbsp;
+        </span>
+
+    </section>    <!--<div class="url text-success">
+        http://www.wrapbootstrap.com <i class="fa fa-caret-down"></i>
+    </div>-->
+    <p class="description">
+        {{::vm.link.description}}
+    </p>
+    <!--<p class="note">
+        <a href-void><i class="fa fa-thumbs-up"></i> Like this link&#xA0;&#xA0;</a>
+        <a href-void><i class="fa fa-chain"></i> Share this link&#xA0;&#xA0;</a>
+        <a href-void><i class="fa fa-star txt-color-yellow"></i> Favorite&#xA0;&#xA0;</a>
+    </p>-->
+
+</div>

@@ -1,0 +1,26 @@
+﻿<div class="timeline-seperator text-center">
+    <span>{{::followerData.formatedTimeStamp}}</span>
+</div>
+<div class="chat-body no-padding profile-message">
+    <ul>
+        <li class="message">
+            <avatar data-actor="followerData.actor"></avatar>
+            <span class="message-text">
+                <a href-void class="username">
+                    {{::followerData.actor.name}}&nbsp;
+                </a>
+                {{::followerData.actor.classType}}&nbsp;
+                <br />
+                {{::followerData.actor.description}}&nbsp;
+                <ul class="list-inline font-xs">
+                    <li>
+                        <a href-void class="text-danger" ng-click="like(followerData.compositeKey)"><i class="fa fa-thumbs-up"></i> Like</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-danger" ng-click="remove()">Remove</a>
+                    </li>
+                </ul>
+            </span>
+        </li>
+    </ul>
+</div>

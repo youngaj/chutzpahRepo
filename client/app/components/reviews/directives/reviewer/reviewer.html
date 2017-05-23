@@ -1,0 +1,41 @@
+﻿<div class="timeline-seperator text-center">
+    <span ng-show="reviewerData.disposition === 0 ">No response</span>
+    <span ng-show="reviewerData.disposition !== 0 ">
+        <i class="fa fa-lg fa-thumbs-up text-success" ng-if="reviewerData.disposition == 1"></i>
+        <i class="fa fa-lg fa-thumbs-down text-warning" ng-if="reviewerData.disposition == 2"></i>
+        {{reviewerData.formatedDispositionDate}}
+    </span>
+</div>
+<div class="chat-body no-padding profile-message">
+    <ul>
+        <li class="message">
+            <img src="styles/img/avatars/male.png" class="online" alt="user avatar">
+            <span class="message-text" style="width:90%">
+                <a href-void class="username">
+                    {{reviewerData.actor.name}}<br />
+                    <small class="text-muted pull-right ultra-light" ng-show="reviewerdata.disposition != 0">
+                        {{reviewerData.timeSinceDispositionDate}}
+                    </small>
+                </a>
+                {{reviewerData.actor.description}}<br />
+                ({{reviewerData.actor.classType}})
+                <ul class="list-inline font-xs" ng-show="canApprove">
+                    <li>
+                        <a href-void class="text-warning" ng-click="disapprove()"><i class="fa fa-thumbs-down"></i> Disapprove</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-success" ng-click="approve()"><i class="fa fa-thumbs-up"></i> Approve</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-danger" ng-click="remove()">Delete</a>
+                    </li>
+                </ul>
+                <span ng-hide="canApprove">
+                    <br />{{reviewerData.comment}}
+                </span>
+                <textarea rows="2" ng-show="canApprove" style="width:90%" class="form-control" placeholder="Comment" ng-model="reviewerData.comment"></textarea>
+                <br />
+            </span>
+        </li>
+    </ul>
+</div>

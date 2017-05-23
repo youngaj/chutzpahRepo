@@ -1,0 +1,241 @@
+﻿<div id="content">
+    <section id="LinkDetail" class="mainbar">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-group fa-fw "></i> Admin <span>
+                &gt;
+                {{ vm.title}}
+            </span>
+        </h1>
+        <div class="well">
+            <p>
+                This page allow you to edit links.
+            </p>
+        </div>
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-linkEdit" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-lightbulb-o"></i> </span>
+                <h2>Link </h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                        <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                        {{vm.state.loadingMsg}}
+                    </div>
+                    <fieldset>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Display:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lightbulb-o fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="Display" type="text" name="Display" id="Display" data-ng-model="vm.link.text">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                URL:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lightbulb-o fa-lg fa-fw"></i></span>
+                                        <input class="form-control input-lg" placeholder="URL" type="text" name="url" id="url" data-ng-model="vm.link.href">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <section class="col col-sm-12">
+                                Description
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                        <textarea class="form-control input-lg" placeholder="Description" name="description" id="description" data-ng-model="vm.link.description"></textarea>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="col-sm-4">
+                                Owner:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                        <input type="text" class="form-control input-lg" ng-model="vm.link.owner.name" close-text="Close" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                Date Created:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar fa-lg fa-fw"></i></span>
+                                        <input type="text" class="form-control input-lg" ng-model="vm.link.created" close-text="Close" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                Category:
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                        <select class="form-control input-lg" ng-model="vm.link.category" ng-options="opt as opt.name for opt in vm.categories track by opt.id"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12"  ng-if="vm.link.id > 0">
+                                Tags:
+                                <div class="form-group" ng-if="vm.link.id > 0">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-tags fa-lg fa-fw"></i></span>
+                                        <tags-input ng-model="vm.link.tags">
+                                            <!--<auto-complete source="vm.loadTagOptions($query)"></auto-complete>-->
+                                        </tags-input>
+                                    </div>
+                                </div>
+                                <span ng-if="(vm.link.id > 0) === false">
+                                    *Tags can be added after the link is created.
+                                </span>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <div><a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.save(vm.link)" data-dismiss="modal">{{vm.state.saveBtnText}}</a></div>
+                            <div ng-show="vm.link.id > 0"><a class="btn btn-default btn-lg pull-right" data-toggle="modal" data-target="#modallAddTag">Add Tag</a></div>
+                            <div>
+                                <a class="btn btn-default btn-lg pull-right" ng-click="vm.goToList()">View List</a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+
+        </div>
+
+        <div jarvis-widget id="virtualFolders-item-support" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-review">
+                            <i class="fa fa-lg fa-check-square-o"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Review
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                            <i class="fa fa-lg fa-file-text"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                File Container
+                            </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-security">
+                            <i class="fa fa-lg fa-lock"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Security
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Followers
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Comments
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="tab-content">
+                        <div class="tab-pane" id="supportItem-review" name="supportItem-review">
+                            <div class="alert alert-warning fade in">
+                                <i class="fa-fw fa fa-warning"></i><strong>Warning:</strong>
+                                Comming soon!  The features in this area are not complete.
+                            </div>
+                            <review-manager data-entity-composite-key="vm.link.compositeKey" data-entity="vm.selectedNode" data-allow-edit="vm.security.allowReview"></review-manager>
+                        </div>
+                        <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer">
+                            <file-container data-entity-composite-key="vm.link.compositeKey" data-entity-reference="vm.link" data-allow-edit="vm.security.allowFileContainer"></file-container>
+                        </div>
+                        <div class="tab-pane active" id="supportItem-security" name="supportItem-security">
+                            <symphony-security data-composite-key="vm.link.compositeKey" data-secured-features="vm.options.availableSecurityPermissions" data-allow-edit="vm.security.allowSecurity"></symphony-security>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.link.compositeKey" data-allow-edit="vm.security.allowFollowers"></follower-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.link.compositeKey" data-allow-edit="vm.security.allowComments"></comment-list>
+                        </div>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+    </section>
+</div>
+
+<div id="modallAddTag" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Tag</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col col-sm-12">
+                        Tag
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-tag fa-lg fa-fw"></i></span>
+                                <input class="form-control input-lg" placeholder="Tag Text" type="text" name="tag" id="tag" data-ng-model="vm.newTag.name">
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" data-dismiss="modal">Close</a>
+                <a class="btn btn-primary pull-right" role="button" ng-click="vm.saveTag(vm.link, vm.newTag)" data-dismiss="modal">Save Tag</a>
+            </div>
+        </div>
+    </div>
+</div>

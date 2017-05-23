@@ -1,0 +1,134 @@
+﻿<div id="content">
+    <section id="projects" class="mainbar">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-role fa-fw "></i> Admin <span>
+                &gt;
+                {{ vm.title}}
+            </span>
+        </h1>
+        <div class="well">
+            <p>
+                This page allow you to edit role.
+            </p>
+        </div>
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-role"></i> </span>
+                <h2>Edit Roles </h2>
+            </header>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Role Name:
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-group fa-lg fa-fw"></i></span>
+                                <input class="form-control input-lg" placeholder="Role Name" type="text" data-ng-model="vm.role.name" ng-disabled="!vm.security.allowMetaDataEdit">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-sm-6">
+                        State
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-key fa-lg fa-fw"></i></span>
+                                <select class="form-control input-lg" ng-model="vm.role.isActive" ng-disabled="!vm.security.allowMetaDataEdit"
+                                        ng-options="opt.value as opt.name for opt in vm.activeOptions">
+                                </select><i></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-sm-12">
+                        Description
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-pencil fa-lg fa-fw"></i></span>
+                                <textarea class="form-control input-lg" placeholder="Description" data-ng-model="vm.role.description" ng-disabled="!vm.security.allowMetaDataEdit"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.saveRole()" data-dismiss="modal" ng-if="vm.security.allowMetaDataEdit">Save</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div jarvis-widget id="role-item-support" data-widget-editbutton="false" data-widget-deletebutton="false"  ng-if="vm.role.id > 0">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                            <i class="fa fa-lg fa-file-text"></i>
+                            <span class="hidden-mobile hidden-tablet"> File Container </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-security" data-secured-features="vm.options.availableFeatures">
+                            <i class="fa fa-lg fa-lock"></i>
+                            <span class="hidden-mobile hidden-tablet"> Security </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">Follower</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">Comment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-changeHistory">
+                            <i class="fa fa-lg fa-code-fork"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Change History
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer">
+                            <file-container data-entity-composite-key="vm.role.compositeKey" data-entity-reference="vm.role"  data-allow-edit="vm.security.allowFileContainer"></file-container>
+                        </div>
+                        <div class="tab-pane active" id="supportItem-security" name="supportItem-security">
+                            <symphony-security data-entity-composite-key="vm.role.compositeKey" data-parentkey="vm.role.parentKey" data-allow-edit="vm.security.allowSecurity"></symphony-security>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.role.compositeKey" data-allow-edit="vm.security.allowFollowers"></follower-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.role.compositeKey" data-entity-reference="vm.role" data-allow-edit="vm.security.allowComments"></comment-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-changeHistory" name="supportItem-changeHistory">
+                            <change-history data-entity-composite-key="vm.role.compositeKey" data-entity-reference="vm.role"></change-history>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>    </section>
+</div>

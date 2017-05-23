@@ -1,0 +1,50 @@
+﻿<div class="text-center text-info" ng-show="vm.state.isLoading">
+    <div class="row">
+        <div class="col-md-12">
+            <br />
+            <h1><i class="fa fa-spinner fa-spin blue"></i> Retrieving security permissions ...</h1>
+            <br />
+        </div>
+    </div>
+</div>
+
+<div ng-hide="vm.state.isLoading">
+    <table class="table table-condensed table-stripped table-hover" border="1">
+        <thead>
+            <tr>
+                <th>
+                    The following actors have been granted/denied the following permissions:
+                </th>
+            </tr>
+        </thead>
+        <tr ng-repeat="permissionGroup in vm.arrangedPermissions">
+            <td>
+                <b>{{::permissionGroup.id}}</b> permissions:
+                <ul class="security-rule-list">
+                    <li ng-repeat="securityPermission in permissionGroup.permisisons">
+                        <div ng-if="vm.allowEdit" class="pull-right">
+                            <span ng-click="vm.removeSecurityPermission(vm.entityCompositeKey, securityPermission)">
+                                <i class="fa fa-trash-o fa-lg"></i>
+                                <u>{{securityPermission.removeText}}</u>
+                            </span>
+                        </div>
+                        <span>
+                            <input type="checkbox" ng-model="securityPermission.selected" class="checkbox">
+                            {{securityPermission.permissionTypeText}}
+                            permission to <b>{{securityPermission.name}}</b>
+                            <span ng-if="securityPermission.entityCompositeKey !== vm.entityCompositeKey" class="text-info">
+                                *
+                            </span>
+                        </span>
+                    </li>
+
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                * = inherited permission from a parent.
+            </td>
+        </tr>
+    </table>
+</div>

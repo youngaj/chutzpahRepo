@@ -1,0 +1,25 @@
+﻿<div>
+    <div class="row">
+        <div ng-show="isLoading">
+            <div class="row">
+                <div class="col-md-12 text-center text-info">
+                    <h1><i class="fa fa-spinner fa-spin blue"></i> Loading reviews ... </h1>
+                </div>
+            </div>
+        </div>
+        <div ng-hide="isLoading">
+            <div class="row">
+                <div class="col-md-12 text-center text-info" ng-hide="reviewers.length > 0">
+                    No reviews found.
+                </div>
+                <table class="table table-hover">
+                    <tr data-ng-repeat="review in reviews | orderBy: 'reviewer.startDate'" ng-click="selectReview(review)">
+                        <td>{{review.owner.name}}</td>
+                        <td>{{review.status.name}}</td>
+                        <td>{{review.startDate}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

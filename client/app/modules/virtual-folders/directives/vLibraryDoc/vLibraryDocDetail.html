@@ -1,0 +1,38 @@
+﻿<header>
+    {{entity.compositeKey}}
+</header>
+<fieldset>
+    <section class="col-md-4">
+        <label class="label">Num</label>
+        <h2>{{ entity.num}}</h2>
+    </section>
+    <section class="col-md-4">
+        <label class="label">Parent</label>
+        <h2>{{ entity.parent.name}}</h2>
+    </section>
+    <section class="col-md-4">
+        <label class="label">Status</label>
+        <label class="select">
+            <select class="input-lg" ng-model="entity.status" ng-options="status.name for status in statuses track by status.id" required ng-disabled="!allowEdit"></select>
+            <i></i>
+        </label>
+    </section>
+    <section class="col-md-12">
+        <label class="label">Title</label>
+        <label class="input">
+            <input type="text" class="input-lg" placeholder="Title" data-ng-model="entity.name" required ng-disabled="!allowEdit">
+        </label>
+    </section>
+    <section class="col-md-12">
+        <label class="label">Href</label>
+        <label class="input">
+            <input type="text" class="input-lg" placeholder="Href" data-ng-model="entity.href" required ng-disabled="!allowEdit">
+        </label>
+    </section>
+    <section class="col-md-12">
+        <label class="label">Description</label>
+        <label class="textarea">
+            <textarea class="form-control" placeholder="Description" rows="4" data-ng-model="entity.description" ng-disabled="!allowEdit"></textarea>
+        </label>
+    </section>
+</fieldset>

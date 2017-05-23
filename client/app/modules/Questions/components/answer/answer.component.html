@@ -1,0 +1,54 @@
+﻿<div style="width:100%">
+
+    <avatar data-actor="vm.answer.author" data-size="vm.avatarSize"> </avatar>
+
+    <div class="message-text" style="width:90%">
+        <section ng-hide="vm.answer.showEdit">
+            <h6 class="media-heading"><span ng-bind-html="vm.answer.text | linky:'_blank'"></span></h6>
+            <span class="text-muted">
+                {{vm.answer.author.name}}
+                <br />
+                State:
+                <span ng-if="vm.answer.state === 'Accepted'" class="green">
+                    <i class="fa fa-check"></i> {{vm.answer.state}}
+                </span>
+                <span ng-if="vm.answer.state !== 'Accepted'">
+                    {{vm.answer.state}}
+                </span>
+            </span>
+            <br />
+        </section>
+        <section ng-if="vm.answer.showEdit">
+            <textarea rows="2" class="form-control" placeholder="Enter your answer and submit" ng-model="vm.answer.text"></textarea>
+            <br />
+            <form class="smart-form ng-pristine ng-valid">
+                <footer>
+                    <div>
+                        <a class="btn btn-primary pull-right" role="button" ng-click="vm.update(vm.answer)">Update</a>
+                    </div>
+                    <div>
+                        <a class="btn btn-default pull-right" ng-click="vm.cancelEdit(vm.answer)">Cancel</a>
+                    </div>
+                </footer>
+            </form>
+        </section>
+        <ul class="list-inline font-xs">
+            <li ng-if="vm.answer.canAcceptAnswer">
+                <a class="text-info" ng-click="vm.onAcceptAnswer(vm.answer)"><i class="fa fa-check"></i> Mark as Answer</a>
+            </li>
+            <li>
+                <a class="text-muted" ng-click="vm.upVote(vm.answer)"><i class="fa fa-thumbs-up"></i> Up-vote ({{vm.answer.voteCount}})</a>
+            </li>
+            <li ng-if="vm.answer.canEdit">
+                <a href-void class="text-primary" ng-click="vm.edit(vm.answer)">Edit</a>
+            </li>
+            <li ng-if="vm.answer.canDelete">
+                <a href-void class="text-danger" ng-click="vm.delete(vm.answer)">Delete</a>
+            </li>
+            <li>
+                <a href-void class="text-muted" ng-click="vm.loadComments(vm.answer)"><i class="fa fa-file fa-fw"></i> Comments</a>
+            </li>
+        </ul>
+
+    </div>
+</div>

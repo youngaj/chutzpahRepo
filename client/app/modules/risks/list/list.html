@@ -1,0 +1,50 @@
+﻿<div id="content">
+    <section id="Risks" class="mainbar">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-sliders fa-fw "></i> Project Risks <span>
+                <span>
+                    &gt;
+                    {{ vm.title}}
+                </span>
+        </h1>
+
+        <form class="smart-form ng-pristine ng-valid">
+            <footer>
+                <div>
+                    <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.newRisk()" data-dismiss="modal">New Risk</a>
+                </div>
+            </footer>
+        </form>
+
+        <div jarvis-widget id="hide-show-columns-table-widget" data-widget-color="blueDark" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+                <h2>Risks </h2>
+            </header>
+            <div>
+                <div class="widget-body ">
+                    <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                        <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                        {{vm.state.loadingMsg}}
+                    </div>
+                    <!--<div ui-grid="vm.gridOptions" ui-grid-pagination ui-grid-selection ui-grid-reseize-columns class="myGrid" ></div>-->
+
+                    <table id="dt_risks" class="table table-striped table-bordered table-hover">
+
+                    </table>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <div>
+                                <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.newRisk()" data-dismiss="modal">New Risk</a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+
+    </section>
+</div>

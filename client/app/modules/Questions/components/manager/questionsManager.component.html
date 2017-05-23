@@ -1,0 +1,112 @@
+﻿<div id="content">
+    <section id="FAQs" class="mainbar">
+
+        <div jarvis-widget id="hide-show-columns-table-widget" data-widget-color="blueDark" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-question"></i> </span>
+                <h2> Questions </h2>
+            </header>
+            <div>
+                <div class="widget-body ">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <form method="post" style="overflow:hidden" class="well padding-10" onsubmit="return false;">
+                                <div>
+                                    <h3 class="red">Got a question?  Ask it below and we may have an answer.</h3>
+                                    <textarea rows="2" class="form-control input-lg" placeholder="Got a question?  Ask it here and we may have an answer." ng-model="vm.question.text" ng-change="vm.filterQuestions(vm.question.text)"></textarea>
+                                    <br />
+                                    <button class="btn btn-sm btn-primary pull-right" ng-click="vm.save(vm.question)" ng-show="vm.question.text != null">
+                                        Post
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="padding-10">
+                                <div class="input-group">
+                                    <input class="form-control " ng-model="vm.searchText" placeholder="Search / Filter.  Use this section to filter existing questions and answers.">
+                                    <span class="input-group-addon"><i class="fa fa-fw fa-search"></i></span>
+                                </div>
+                            </div>
+                            <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+                                <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Processing:</strong>
+                                {{vm.state.loadingMsg}}
+                            </div>
+
+                            <div ng-repeat="questionEntry in vm.orderedQuestions | filter: vm.searchText">
+                                <question question-data="questionEntry" up-vote="vm.upVote(questionEntry)"
+                                          on-update="vm.updateQuestion(questionEntry)"
+                                          on-delete="vm.deleteQuestion(questionEntry)"
+                                          on-load-attachments="vm.loadAttachments(questionEntry)"
+                                          on-load-comments="vm.loadComments"
+                                          on-load-followers="vm.loadFollowers(questionEntry)">
+                                </question>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalComments" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                        <h4 class="modal-title">
+                            Comments on <b>{{vm.entity.text}}</b>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <comment-list data-entity-composite-key="vm.entity.compositeKey" data-entity-reference="vm.entity" data-allow-edit=true></comment-list>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="modalAttachments" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                        <h4 class="modal-title">
+                            Attachments
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <file-container
+                            data-entity-composite-key="vm.entity.compositeKey"
+                            data-action="vm.entity.action"
+                            data-allow-edit="true"
+                            data-auto-process="vm.entity.autoProcess">
+                        </file-container>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="modalFollowers" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content modal-lg">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal"><i class="fa fa-times-circle fa-lg"></i></button>
+                        <h4 class="modal-title">
+                            Followers of <b>{{vm.entity.text}}</b>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <follower-list data-entity-composite-key="vm.entity.compositeKey"  data-entity-reference="vm.entity" data-allow-edit="true"></follower-list>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

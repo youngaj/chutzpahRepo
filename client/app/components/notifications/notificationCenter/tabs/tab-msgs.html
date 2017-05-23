@@ -1,0 +1,13 @@
+<ul class="notification-body">
+	<li ng-repeat="msg in vm.state.currentActivityItems">
+		<span ng-class="{unread : msg.status == 'unread'}">
+			<a href="javascript:void(0);" class="msg">
+                <avatar data-actor="msg.from" data-size="40" data-additional-class="air air-top-left margin-top-5"></avatar>
+				<span class="from">{{msg.from.name}}</span>
+				<time>{{msg.formatedTimeStamp}}</time>
+				<span class="subject">{{msg.subject}}</span>
+				<span class="msg-body">{{msg.text}}</span>
+			</a>
+		</span>
+	</li>
+</ul>

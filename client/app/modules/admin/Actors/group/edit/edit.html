@@ -1,0 +1,210 @@
+﻿<div id="content">
+    <section id="GroupDetail" class="mainbar">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-group fa-fw "></i> Admin <span>
+                &gt;
+                {{ vm.title}}
+            </span>
+        </h1>
+        <div class="well">
+            <p>
+                This page allow you to edit group.
+            </p>
+        </div>
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-group"></i> </span>
+                <h2>Group </h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            Group Name:
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-group fa-lg fa-fw"></i></span>
+                                    <input class="form-control input-lg" placeholder="Group Name" type="text" name="firstName" id="firstName" data-ng-model="vm.group.name" ng-disabled="!vm.security.allowMetaDataEdit">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            IsActive:
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                    <select class="form-control input-lg" ng-model="vm.group.isActive" ng-options="opt.value as opt.name for opt in vm.activeOptions" ng-disabled="!vm.security.allowMetaDataEdit"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <section class="col col-sm-12">
+                            Description
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-pencil fa-lg fa-fw"></i></span>
+                                    <textarea class="form-control input-lg" placeholder="Description" name="description" id="description" data-ng-model="vm.group.description" ng-disabled="!vm.security.allowMetaDataEdit"></textarea>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="col-sm-12">
+                            Members:
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                    <input class="form-control input-lg" placeholder="Members Filter" type="text" name="memberFilter" id="memberFilter" data-ng-model="vm.memberFilter">
+                                </div>
+                            </div>
+                            <div style="max-height:300px; overflow:auto">
+                                <div class="col-sm-6 col-md-4" data-ng-repeat="groupMember in vm.group.members | filter:vm.memberFilter ">
+                                    <a ng-click="vm.deleteGroupMember(groupMember)" ng-if="vm.security.allowMemberUpdate"><i class="fa fa-trash-o fa-lg fa-fw"></i>Delete</a>
+                                    <strong>{{ groupMember.member.name }}</strong>
+                                    ({{ groupMember.member.classType }})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <button class="btn btn-primary pull-right" role="button" ng-click="vm.save(vm.group)" data-dismiss="modal" ng-if="vm.security.allowMetaDataEdit">Save</button>
+                            <button class="btn btn-default pull-right" data-toggle="modal" data-target="#modalAddMember" ng-if="vm.security.allowMemberUpdate">Add Member</button>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+
+        </div>
+
+        <div jarvis-widget id="groups-item-support" data-widget-editbutton="false" data-widget-deletebutton="false" ng-if="vm.group.id > 0">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-fileContainer">
+                            <i class="fa fa-lg fa-file-text"></i>
+                            <span class="hidden-mobile hidden-tablet"> File Container </span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-security" data-secured-features="vm.options.availableFeatures">
+                            <i class="fa fa-lg fa-lock"></i>
+                            <span class="hidden-mobile hidden-tablet"> Security </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">Follower</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">Comment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-changeHistory">
+                            <i class="fa fa-lg fa-code-fork"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Change History
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+
+                    <div class="tab-content">
+                        <div class="tab-pane" id="supportItem-fileContainer" name="supportItem-fileContainer">
+                            <file-container data-entity-composite-key="vm.group.compositeKey" data-entity-reference="vm.group" data-allow-edit="vm.security.allowFileContainer"></file-container>
+                        </div>
+                        <div class="tab-pane active" id="supportItem-security" name="supportItem-security">
+                            <symphony-security data-entity-composite-key="vm.group.compositeKey" data-parentkey="vm.group.parentKey" data-allow-edit="vm.security.allowSecurity"></symphony-security>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.group.compositeKey" data-allow-edit="vm.security.allowFollowers"></follower-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.group.compositeKey" data-entity-reference="vm.group" data-allow-edit="vm.security.allowComments"></comment-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-changeHistory" name="supportItem-changeHistory">
+                            <change-history data-entity-composite-key="vm.group.compositeKey" data-entity-reference="vm.group"></change-history>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+    </section>
+</div>
+
+<div id="modalAddMember" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Group Member</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col col-sm-6">
+                        Type
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-sort fa-lg fa-fw"></i></span>
+                                <select name="actorType" class="form-control input-lg" ng-model="vm.actor.type">
+                                    <option value="User">User</option>
+                                    <option value="Group">Group</option>
+                                </select> <i></i>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="col col-sm-6">
+                        Actor
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                <select name="actorType" class="form-control input-lg" ng-model="vm.newMember.member"
+                                        data-ng-options="opt.name for opt in vm.actor.options | filter: {classType: vm.actor.type} | orderBy:'name'"></select> <i></i>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" data-dismiss="modal">Close</a>
+                <a class="btn btn-primary pull-right" role="button" ng-click="vm.saveMember(vm.group, vm.newMember)" data-dismiss="modal">Save Member</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+﻿<div class="timeline-seperator text-center">
+    <span>{{commentData.formatedTimeStamp}}</span>
+    <!--<div class="btn-group pull-right">
+        <a href-void data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle">
+            <span class="caret single"></span>
+        </a>
+        <ul class="dropdown-menu text-left">
+            <li>
+                <a href-void>Hide this post</a>
+            </li>
+            <li>
+                <a href-void>Hide future posts from this user</a>
+            </li>
+            <li>
+                <a href-void>Mark as spam</a>
+            </li>
+        </ul>
+    </div>-->
+</div>
+<div class="chat-body no-padding profile-message">
+    <ul>
+        <li class="message">
+            <img ng-if="commentData.author.avatar == null" ng-src="{{commentData.author.genericImageUrl}}" alt="{{commentData.author.name}}" width="60" class=" online">
+            <img ng-if="commentData.author.avatar != null" ng-src="{{commentData.author.avatar.smallImageUrl}}" alt="{{commentData.author.name}}" width="60" class=" online" />
+
+            <span class="message-text" style="width:90%">
+                <a href-void class="username">
+                    {{commentData.author.name}}
+                    <small class="text-muted pull-right ultra-light">
+                        {{commentData.timeSince}}
+                    </small>
+                </a>
+                <span ng-hide="commentData.showEdit">
+                    {{commentData.text}}
+                    <br />
+                </span>
+                <span ng-if="commentData.showEdit">
+                    <textarea rows="2" class="form-control" placeholder="Enter your comment and submit" ng-model="commentData.text"></textarea>
+                    <br />
+                    <button class="btn btn-sm btn-primary pull-right" ng-click="update(commentData)">
+                        Update
+                    </button>
+                </span>
+                <ul class="list-inline font-xs">
+                    <li>
+                        <a href-void class="text-info" ng-click="toggleReplyEntry()"><i class="fa fa-reply"></i> Reply</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-danger" ng-click="like(commentData.compositeKey)"><i class="fa fa-thumbs-up"></i> Like</a>
+                    </li>
+                    <li ng-if="commentData.replies.length >0">
+                        <a href-void class="text-muted" ng-hide="commentData.showReplies" ng-click="commentData.showReplies=true">Show All Replies ({{commentData.replies.length}})</a>
+                        <a href-void class="text-muted" ng-if="commentData.showReplies" ng-click="commentData.showReplies=false">Hide All Replies ({{commentData.replies.length}})</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-primary" ng-if="commentData.canEdit" ng-click="edit(commentData)">Edit</a>
+                    </li>
+                    <li>
+                        <a href-void class="text-danger" ng-if="commentData.canDelete" ng-click="remove(commentData)">Delete</a>
+                    </li>
+                </ul>
+                <br />
+                <span ng-show="showReplyEntry">
+                    <textarea rows="2" class="form-control" placeholder="Enter your comment reply and submit" ng-model="selectedReply.text"></textarea>
+                    <br />
+                    <button class="btn btn-sm btn-primary pull-right" ng-click="createReply()">
+                        Submit Reply
+                    </button>
+                </span>
+            </span>
+
+        </li>
+
+        <li class="message message-reply" ng-repeat="reply in commentData.replies | orderBy: reply.id: reverse" ng-show="commentData.showReplies">
+            <div comment-reply data-reply="reply"></div>
+        </li>
+    </ul>
+</div>

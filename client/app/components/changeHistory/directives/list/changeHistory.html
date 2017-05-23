@@ -1,0 +1,48 @@
+﻿<div class="row">
+    <div class="col-sm-12 col-md-12">
+        <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+            <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Proccessing:</strong>
+            {{vm.state.loadingMsg}}
+        </div>
+        <div ng-if="vm.changeRecords.length === 0">
+            <h2>No changes detected.</h2>
+        </div>
+        <div>
+            <a class="btn btn-primary pull-right" ng-click="vm.refresh()">
+                <i class="fa fa-refresh fa-lg fa-fw"></i> Refresh
+            </a>
+            <br />
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th>Actor</th>
+                        <th>Field</th>
+                        <th>Old Value</th>
+                        <th>New Value</th>
+                        <th>TimeStamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="changeRecord in vm.changeRecords">
+                        <td>
+                            {{::changeRecord.actor.name}}
+                        </td>
+                        <td>
+                            {{::changeRecord.fieldName}}
+                        </td>
+                        <td>
+                            {{::changeRecord.oldDisplayValue}}
+                        </td>
+                        <td>
+                            {{::changeRecord.newDisplayValue}}
+                        </td>
+                        <td>
+                            {{::changeRecord.timeStamp}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

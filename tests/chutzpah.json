@@ -1,0 +1,18 @@
+﻿{
+  "Framework": "jasmine",
+  "TestHarnessLocationMode": "SettingsFileAdjacent",
+  "References": [
+    { "Path": "build/vendor.js" },
+    { "Path": "build/vendor.datatables.js" },
+    { "Path": "build/vendor.graph.js" },
+    { "Path": "build/vendor.ui.js" },
+    { "Path": "build/app.js" },
+    { "Path": "build/angular-mocks/angular-mocks.js" }
+  ],
+  "Tests": [
+    {
+      "Path": "build",
+      "Includes": [ "*.spec.js" ]
+    }
+  ]
+}

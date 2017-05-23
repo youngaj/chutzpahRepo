@@ -1,0 +1,27 @@
+﻿<section ng-switch="vm.state.view">
+    <section ng-switch-when="collapsed">
+        <div class="col col-md-2">
+            Type: {{vm.item.hardwareType.name}}
+        </div>
+        <div class="col col-md-2">
+            Make: {{vm.item.make}}
+        </div>
+        <div class="col col-md-3">
+            Model: {{vm.item.model}}
+        </div>
+        <div class="col col-md-2">
+            Asset Tag: {{vm.item.assetTag}}
+        </div>
+        <div class="col col-md-3">
+            User: {{vm.item.user.name}}
+        </div>
+    </section>
+    <div ng-switch-when="expanded">
+        <section><i class="fa fa-chevron-up">Collapse</i></section>
+        <h1>Expanded view</h1>
+    </div>
+</section>
+
+<pre>
+    {{vm.item | json}}
+</pre>

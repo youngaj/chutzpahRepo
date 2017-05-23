@@ -1,0 +1,34 @@
+
+<span id="activity" class="activity-dropdown" activities-dropdown-toggle>
+    <i class="fa fa-user"></i>
+    <b class="badge bg-color-red">{{vm.state.totalMsgs}}</b>
+</span>
+<div class="ajax-dropdown">
+
+   <!-- the ID links are fetched via AJAX to the ajax container "ajax-notifications" -->
+   <div class="btn-group btn-group-justified" data-toggle="buttons">
+      <label class="btn btn-default" ng-class="{active : vm.isTabActive(type.name)}" \
+               ng-repeat="(key, type) in vm.state.activityTypes" ng-click="vm.setTab(type.name)">
+         <input type="radio" name="activity">
+         {{type.title}} ({{type.length}})
+      </label>
+   </div>
+
+   <!-- notification content -->
+   <div class="ajax-notifications custom-scroll" ng-switch="vm.state.activeTab">
+         <div smart-include="app/components/notifications/notificationCenter/tabs/tab-msgs.html" ng-switch-when="msgs"></div>
+         <div smart-include="app/components/notifications/notificationCenter/tabs/tab-notify.html" ng-switch-when="notify"></div>
+         <div smart-include="app/components/notifications/notificationCenter/tabs/tab-tasks.html" ng-switch-when="tasks"></div>
+         <div smart-include="app/components/notifications/notificationCenter/tabs/tab-default.html" ng-switch-when="default"></div>
+   </div>
+   <!-- end notification content -->
+
+   <!-- footer: refresh area -->
+   <span> Last updated: {{vm.state.last_update}}
+      <button type="button" data-loading-text="<i class='fa fa-refresh fa-spin'></i> Loading..." class="btn btn-xs btn-default pull-right" ng-click="vm.setTab(vm.state.activeTab)">
+         <i class="fa fa-refresh"></i>
+      </button>
+   </span>
+   <!-- end footer -->
+
+</div>

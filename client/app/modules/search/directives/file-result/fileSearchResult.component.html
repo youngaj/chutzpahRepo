@@ -1,0 +1,20 @@
+﻿<h4><a ng-click="vm.goTo(vm.file)">{{::vm.file.name}}</a></h4>
+<div>
+    <br /> {{::vm.file.classType}}
+    <br /> Owner: {{::vm.file.uploader.name}}
+    <br /> Rev: {{vm.file.revision}}
+    <br /> State: {{vm.file.state}}
+       
+    <!--<div class="url text-success">
+        http://www.wrapbootstrap.com <i class="fa fa-caret-down"></i>
+    </div>-->
+    <p class="description">
+        {{::vm.file.description}}
+    </p>
+    <!--<p class="note">
+        <a href-void><i class="fa fa-thumbs-up"></i> Like this file&#xA0;&#xA0;</a>
+        <a href-void><i class="fa fa-chain"></i> Share this file&#xA0;&#xA0;</a>
+        <a href-void><i class="fa fa-star txt-color-yellow"></i> Favorite&#xA0;&#xA0;</a>
+    </p>-->
+
+</div>

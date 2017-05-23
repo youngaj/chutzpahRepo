@@ -1,0 +1,134 @@
+﻿<section id="widget-grid" widget-grid>
+    <div class="row">
+        <article class="col-sm-12 col-md-12 col-lg-12">
+
+            <!-- Widget ID (each widget will need unique ID)-->
+            <div jarvis-widget id="wid-id-2" data-widget-editbutton="false" data-widget-deletebutton="false">
+                <header>
+                    <h2>{{vm.type}} Wizard </h2>
+
+                </header>
+
+                <!-- widget div-->
+                <div>
+                    <!-- widget content -->
+                    <div class="widget-body fuelux"
+                         data-smart-fuelux-wizard
+                         data-smart-wizard-callback="vm.wizard2CompleteCallback"
+                         data-step-changed-callback="vm.wizardStepCallBack"
+                         data-step-changing-callback="vm.wizardStepChangingCallBack">
+
+                        <div class="wizard">
+                            <ul class="steps">
+                                <li data-step="1" class="active">
+                                    Metadata<span class="chevron"></span>
+                                </li>
+                                <li data-step="2" ng-if="vm.displayUploadStep === true">
+                                    File Upload<span class="chevron"></span>
+                                </li>
+                                <li data-step="3">
+                                    Security<span class="chevron"></span>
+                                </li>
+                                <li data-step="4">
+                                    Followers<span class="chevron"></span>
+                                </li>
+                                <li data-step="5">
+                                    Submission<span class="chevron"></span>
+                                </li>
+                            </ul>
+                            <div class="actions">
+                                <button type="button" class="btn btn-sm btn-primary btn-prev">
+                                    <i class="fa fa-arrow-left"></i>Previous
+                                </button>
+                                <button type="button" class="btn btn-sm btn-success btn-next" data-last="Finish">
+                                    Next<i class="fa fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="step-content">
+                            <div class="form-horizontal">
+
+                                <div class="step-pane active" data-step="1">
+                                    <h3> Metadata {{vm.selectedNode.classType}}</h3>
+
+                                    <div class="widget-body no-padding">
+                                        <form name="wizardForm" class="smart-form ng-pristine">
+                                            <div data-show-save="false" data-allow-edit="vm.state.allowEdit" data-statuses="vm.statuses" ng-if="vm.selectedNode.classType === 'VirtualTree'" data-v-tree-detail data-entity="vm.selectedNode"></div>
+                                            <div data-show-save="false" data-allow-edit="vm.state.allowEdit" data-statuses="vm.statuses" ng-if="vm.selectedNode.classType === 'VirtualFolder'" data-v-folder-detail data-entity="vm.selectedNode"></div>
+                                            <div data-show-save="false" data-allow-edit="vm.state.allowEdit" data-statuses="vm.statuses" ng-if="vm.selectedNode.classType === 'VirtualLibraryDoc'" data-v-library-doc-detail data-entity="vm.selectedNode"></div>
+                                            <div data-show-save="false" data-allow-edit="vm.state.allowEdit" data-statuses="vm.statuses" ng-if="vm.selectedNode.classType === 'VirtualSharedFile'" data-v-shared-file-detail data-entity="vm.selectedNode"></div>
+                                            <div data-show-save="false" data-allow-edit="vm.state.allowEdit" data-statuses="vm.statuses" ng-if="vm.selectedNode.classType === 'VirtualPhoto'" data-v-photo-detail data-entity="vm.selectedNode" data-users="vm.users"></div>
+                                            <div data-show-save="false" data-allow-edit="vm.state.allowEdit" data-statuses="vm.statuses" ng-if="vm.selectedNode.classType === 'VirtualLink'" data-v-link-detail data-entity="vm.selectedNode"></div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="step-pane" data-step="2" ng-if="vm.displayUploadStep === true">
+                                    <h3>File Upload</h3>
+                                    <div ng-show="vm.state.isLoading">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center text-info">
+                                                <h1><i class="fa fa-spinner fa-spin blue"></i> {{vm.state.loadingMsg}} </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-hide="vm.state.isLoading">
+                                        <div class="well" id="fileContainerStep">
+                                            <div data-file-container-upload data-entity-composite-key="vm.selectedNode.compositeKey" data-auto-process="true" data-action="vm.dropZoneAction" allow-edit="true"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="step-pane" data-step="3">
+                                    <div ng-show="vm.state.isLoading">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center text-info">
+                                                <h1><i class="fa fa-spinner fa-spin blue"></i> {{vm.state.loadingMsg}} </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-hide="vm.state.isLoading">
+                                        <div data-symphony-security data-allow-edit="vm.state.allowEdit" data-entity-composite-key="vm.selectedNode.compositeKey" data-secured-features="vm.options.availableFeatures"></div>
+                                    </div>
+                                </div>
+                                <div class="step-pane" data-step="4">
+                                    <div ng-show="vm.state.isLoading">
+                                        <div class="row">
+                                            <div class="col-md-12 text-center text-info">
+                                                <h1><i class="fa fa-spinner fa-spin blue"></i> {{vm.state.loadingMsg}} </h1>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-hide="vm.state.isLoading">
+                                        <div data-follower-list data-allow-edit="vm.state.allowEdit" data-entity-composite-key="vm.selectedNode.compositeKey" data-hide-save="true" data-action="vm.followerAction"></div>
+                                    </div>
+                                </div>
+                                <div class="step-pane" data-step="5">
+                                    <h3>Finished!</h3>
+                                    <br>
+                                    <br>
+
+                                    <h1 class="text-center text-success">
+                                        <i class="fa fa-check"></i> Congratulations!
+                                        <br>
+                                        <small>Click finish to end wizard</small>
+                                    </h1>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+            </div>
+            <!-- end widget -->
+        </article>
+    </div>
+</section>

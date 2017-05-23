@@ -1,0 +1,123 @@
+﻿<section id="projects" class="mainbar">
+    <h1 class="page-title txt-color-blueDark">
+        <i class="fa fa-user fa-fw "></i>  <span>
+            &gt;
+            System Settings
+        </span>
+    </h1>
+</section>
+
+<div>
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-darken" id="virtualFolders_info" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header role="heading">
+                <h2> System Details </h2>
+            </header>
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body no-padding">
+                    <form class="smart-form ng-pristine ng-valid">
+                        <header>
+                            {{vm.system.compositeKey}}
+                        </header>
+                        <fieldset>
+                            <section class="col-md-12">
+                                <label class="label">Title</label>
+                                <label class="input">
+                                    <input type="text" class="input-lg" placeholder="Title" data-ng-model="vm.system.name" required ng-disabled="!vm.security.allowMetaDataEdit">
+                                </label>
+                            </section>
+                            <section class="col-md-12">
+                                <label class="label">Version</label>
+                                <label class="input">
+                                    <input type="text" class="input-lg" placeholder="Version" data-ng-model="vm.system.version" required ng-disabled="!vm.security.allowMetaDataEdit">
+                                </label>
+                            </section>
+                            <section class="col-md-12">
+                                <label class="label">Description</label>
+                                <label class="textarea">
+                                    <textarea class="form-control" placeholder="Description" rows="4" data-ng-model="vm.system.description" ng-disabled="!vm.security.allowMetaDataEdit"></textarea>
+                                </label>
+                            </section>
+                        </fieldset>
+                        <footer>
+                            <div ng-if="vm.security.allowMetaDataEdit">
+                                <button type="button" class="btn btn-info pull-right" ng-click="vm.save()"><i class="fa fa-save"></i> Save </button>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+
+        </div>
+    </div>
+
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div jarvis-widget id="virtualFolders-item-support" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header>
+                <h2>Support Items</h2>
+                <ul class="nav nav-tabs pull-right in">
+                    <li class="active">
+                        <a data-toggle="tab" data-target="#supportItem-security">
+                            <i class="fa fa-lg fa-lock"></i>
+                            <span class="hidden-mobile hidden-tablet"> Security </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-followers">
+                            <i class="fa fa-lg fa-envelope"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Followers
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" data-target="#supportItem-comments">
+                            <i class="fa fa-lg fa-comments-o"></i>
+                            <span class="hidden-mobile hidden-tablet">
+                                Comments
+                            </span>
+                        </a>
+                    </li>
+
+                </ul>
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="supportItem-security" name="supportItem-security">
+                            <symphony-security data-entity-composite-key="vm.system.compositeKey" data-secured-features="vm.options.availableSecurityPermissions" data-allow-edit="vm.security.allowSecurity"></symphony-security>
+                        </div>
+                        <div class="tab-pane" id="supportItem-followers">
+                            <follower-list data-entity-composite-key="vm.system.compositeKey" data-allow-edit="vm.security.allowFollowers"></follower-list>
+                        </div>
+                        <div class="tab-pane" id="supportItem-comments">
+                            <comment-list data-entity-composite-key="vm.system.compositeKey" data-entity-reference="vm.system" data-allow-edit="vm.security.allowComments"></comment-list>
+                        </div>
+                    </div>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+        </div>
+    </div>
+</div>

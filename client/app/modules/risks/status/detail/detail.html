@@ -1,0 +1,87 @@
+﻿<div id="content">
+    <section id="RiskStatusDetail" class="mainbar">
+        <h1 class="page-title txt-color-blueDark">
+            <i class="fa fa-sliders fa-fw "></i> Project Risks <span>
+            <span>
+                &gt;
+                {{ vm.title}}
+            </span>
+        </h1>
+        <div class="well">
+            <p>
+                This page allow you to edit risk status.
+            </p>
+        </div>
+
+        <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon"> <i class="fa fa-group"></i> </span>
+                <h2>Risk Status </h2>
+
+            </header>
+
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as dropdown edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            Risk Status Name:
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lg fa-fw"></i></span>
+                                    <input class="form-control input-lg" placeholder="Risk Status Name" type="text" name="firstName" id="firstName" data-ng-model="vm.riskStatus.name">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            IsDefault:
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lg fa-check fa-fw"></i></span>
+                                    <select class="form-control input-lg" ng-model="vm.riskStatus.isDefault" ng-options="opt.value as opt.name for opt in vm.defaultOptions"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            IsOpen:
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lg fa-check fa-fw"></i></span>
+                                    <select class="form-control input-lg" ng-model="vm.riskStatus.isOpen" ng-options="opt.value as opt.name for opt in vm.defaultOptions"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <section class="col col-sm-12">
+                            Description
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-edit fa-lg fa-fw"></i></span>
+                                    <textarea class="form-control input-lg" placeholder="Description" name="description" id="description" data-ng-model="vm.riskStatus.description"></textarea>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <form class="smart-form ng-pristine ng-valid">
+                        <footer>
+                            <a class="btn btn-primary btn-lg pull-right" role="button" ng-click="vm.save(vm.riskStatus)" data-dismiss="modal">Save</a>
+                            <a class="btn btn-default btn-lg pull-right" data-toggle="modal" ng-click="vm.goToList()">View List</a>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+
+            </div>
+            <!-- end widget div -->
+
+        </div>
+    </section>
+</div>

@@ -1,0 +1,92 @@
+﻿<div class="row">
+    <div class="col-sm-12 col-md-12">
+
+        <div ng-show="vm.state.isLoading" class="alert alert-info fade in">
+            <i class="fa-fw fa fa-spinner fa-spin"></i><strong>Proccessing:</strong>
+            {{vm.state.loadingMsg}}
+        </div>
+        <div ng-if="vm.roleAssignments.length === 0">
+            <h2>No role assignments detected.</h2>
+        </div>
+        <div>
+            <br />
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Actor</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="assignment in vm.roleAssignments">
+                        <td>
+                            {{::assignment.role.name}}
+                        </td>
+                        <td>
+                            {{::assignment.actor.name}}
+                        </td>
+                        <td>
+                            <a ng-click="vm.delete(assignment)" tooltip-placement="bottom" ng-if="vm.allowEdit"
+                               uib-tooltip="Delete">
+                                <strong>
+                                    <i class="fa fa-trash-o fa-lg"></i>
+                                    Delete
+                                </strong>
+                            </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <form class="smart-form ng-pristine ng-valid">
+                <footer>
+                    <button class="btn btn-primary pull-right" role="button" ng-click="vm.refresh()" data-dismiss="modal"><i class="fa fa-refresh fa-lg fa-fw"></i> Refresh</button>
+                    <button class="btn btn-default pull-right" data-toggle="modal" data-target="#modalAddMember" ng-if="vm.allowEdit">Add Role Assignment</button>
+                </footer>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div id="modalAddMember" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Role Assignment</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <section class="col col-sm-6">
+                        Role
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-sort fa-lg fa-fw"></i></span>
+                                <select name="actorType" class="form-control input-lg" ng-model="vm.roleAssignment.role"
+                                        data-ng-options="opt.name for opt in vm.roles | orderBy:'name'">
+                                </select> <i></i>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="col col-sm-6">
+                        Users
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-user fa-lg fa-fw"></i></span>
+                                <select name="actorType" class="form-control input-lg" ng-model="vm.roleAssignment.actor"
+                                        data-ng-options="opt.name for opt in vm.users | orderBy:'name'"></select> <i></i>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" data-dismiss="modal">Cancel</a>
+                <a class="btn btn-primary pull-right" role="button" ng-click="vm.saveRoleAssignment(vm.roleAssignment)" data-dismiss="modal" ng-if="vm.allowEdit">Save Role Assignment</a>
+            </div>
+        </div>
+    </div>
+</div>

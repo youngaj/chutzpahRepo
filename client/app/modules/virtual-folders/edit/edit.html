@@ -1,0 +1,40 @@
+﻿<div>
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="jarviswidget jarviswidget-color-darken" id="virtualFolders_info" data-widget-editbutton="false" data-widget-deletebutton="false">
+            <header role="heading">
+                <h2> Info </h2>
+            </header>
+            <!-- widget div-->
+            <div>
+
+                <!-- widget edit box -->
+                <div class="jarviswidget-editbox">
+                    <!-- This area used as drop down edit box -->
+
+                </div>
+                <!-- end widget edit box -->
+                <!-- widget content -->
+                <div class="widget-body no-padding">
+                    <form class="smart-form ng-pristine ng-valid">
+                        <div ng-if="vm.selectedNode.classType === 'VirtualTree'" data-v-tree-detail data-entity="vm.selectedNode" data-statuses="vm.statuses" data-allow-edit="vm.security.allowMetaDataEdit"></div>
+                        <div ng-if="vm.selectedNode.classType === 'VirtualFolder'" data-v-folder-detail data-entity="vm.selectedNode" data-statuses="vm.statuses" data-allow-edit="vm.security.allowMetaDataEdit"></div>
+                        <div ng-if="vm.selectedNode.classType === 'VirtualLibraryDoc'" data-v-library-doc-detail data-entity="vm.selectedNode" data-statuses="vm.statuses" data-allow-edit="vm.security.allowMetaDataEdit"></div>
+                        <div ng-if="vm.selectedNode.classType === 'VirtualSharedFile'" data-v-shared-file-detail data-entity="vm.selectedNode" data-statuses="vm.statuses" data-allow-edit="vm.security.allowMetaDataEdit"></div>
+                        <div ng-if="vm.selectedNode.classType === 'VirtualPhoto'" data-v-photo-detail data-entity="vm.selectedNode" data-statuses="vm.statuses" data-users="vm.users" data-allow-edit="vm.security.allowMetaDataEdit"></div>
+                        <div ng-if="vm.selectedNode.classType === 'VirtualLink'" data-v-link-detail data-entity="vm.selectedNode" data-statuses="vm.statuses" data-allow-edit="vm.security.allowMetaDataEdit"></div>
+                        <footer>
+                            <div ng-if="vm.security.allowMetaDataEdit == true">
+                                <button type="button" class="btn btn-info pull-right" ng-click="vm.saveVirtualObj()"><i class="fa fa-save"></i> Save {{vm.selectedNode.classType}} </button>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+                <!-- end widget content -->
+            </div>
+            <!-- end widget div -->
+
+        </div>
+    </div>
+
+    <component-panel data-entity-composite-key="vm.selectedNode.compositeKey" data-entity-reference="vm.selectedNode" data-display-config="vm.displayConfig" data-security-config="vm.security"></component-panel>
+</div>

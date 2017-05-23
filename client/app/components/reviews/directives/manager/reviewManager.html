@@ -1,0 +1,108 @@
+﻿<div>
+    <div class="row">
+        <div ng-show="state.isLoading">
+            <div class="col-md-12 text-center text-info">
+                <h1><i class="fa fa-spinner fa-spin blue"></i> Loading review ... </h1>
+            </div>
+        </div>
+        <div ng-hide="state.isLoading">
+            <div ng-hide="state.displayDetail">
+                <div class="col-md-12  text-info" ng-show="reviews.length === 0">
+                    <h1 class="text-center">No Reviews found. </h1>
+                    <div ng-if="allowEdit">
+                        <p class="text-left">
+                            <h3>To create and/or start a new review:</h3>
+                            <ul>
+                                <li>Click the <span class="text-info">Add Review</span> button below:</li>
+                                <li>Fill in the review information</li>
+                                <li>Select reviewers</li>
+                                <li>Click the <span class="text-info">Save Review</span> button</li>
+                                <li>Click the <span class="text-info">Start Review</span> button</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-12 text-info" ng-show="reviews.length > 0">
+                    <h3 class="text-center">{{reviews.length}} Existing Reviews</h3>
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Num</th>
+                            <th>Title</th>
+                            <th>Owner</th>
+                            <th>Status</th>
+                            <th>Start Date</th>
+                        </tr>
+                        <tr ng-repeat="review in reviews | orderBy: 'review.startDate'" ng-click="selectReview(review)">
+                            <td>{{review.num}}</td>
+                            <td>{{review.title}}</td>
+                            <td>{{review.owner.name}}</td>
+                            <td>{{review.status.name}}</td>
+                            <td>
+                                <span ng-show="review.startDate !== null">{{review.formatedStartDate}}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div ng-show="state.displayDetail">
+                <review review-data="selectedReview" data-statuses="statuses" curr-user="currUser" data-allow-edit="allowEdit"></review>
+            </div>
+        </div>
+    </div>
+    <div>
+        <form action="" class="smart-form ng-pristine" ng-hide="state.isLoading">
+            <footer>
+                <button type="button" class="btn btn-info pull-right" ng-click="showList()" ng-show="state.displayDetail">Show List</button>
+                <span ng-if="allowEdit">
+                    <button type="button" class="btn btn-warning pull-right" ng-click="deleteReview(selectedReview)" ng-show="state.isDeleteable">Delete Review</button>
+                    <button type="button" class="btn btn-info pull-right" ng-click="saveReview(selectedReview)" ng-show="state.displayDetail">Save Review</button>
+                    <button type="button" class="btn btn-info pull-right" ng-click="startReview(selectedReview)" ng-show="state.isStartable">Start Review</button>
+                    <button type="button" class="btn btn-info pull-right" ng-click="addReview(selectedReview)" ng-hide="state.displayDetail">Add Review</button>
+                    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#actorModal" ng-show="state.displayDetail" ng-click="getActors()">
+                        Edit Reviewers
+                    </button>
+                </span>
+            </footer>
+        </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="actorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" ng-click="clearActors()" aria-hidden=" true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">Reviewer Options</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-stripped table-hover">
+                            <tr>
+                                <th colspan="2">
+                                    <input type="text" class="input-lg" placeholder="Filter" data-ng-model="nameFilter">
+                                </th>
+                            </tr>
+                            <tr data-ng-repeat="actor in actors | filter: nameFilter | orderBy: ['name','classType']" ng-click="selectActor(actor)">
+                                <td><input type="checkbox" ng-model="actor.isSelected" /></td>
+                                <td>{{::actor.name}}</td>
+                                <td>{{::actor.classType}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clearActors()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="clearActors()">
+                    Close
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

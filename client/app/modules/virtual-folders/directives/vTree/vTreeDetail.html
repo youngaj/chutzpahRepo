@@ -1,0 +1,48 @@
+﻿<header>
+    {{entity.compositeKey}}
+</header>
+<fieldset>
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Num</label>
+            <h2>{{ entity.num}}</h2>
+        </section>
+        <section class="col col-6">
+            <label class="label">Parent</label>
+            <h2>{{ entity.parent.name}}</h2>
+        </section>
+    </div>
+    <section class="col-12">
+        <label class="label">Title <span class="txt-color-red">*</span></label>
+        <label class="input" ng-class="{'state-error':!entity.name.length}">
+            <input type="text" name="title" class="input-lg" placeholder="Title" data-ng-model="entity.name" required ng-disabled="!allowEdit">
+        </label>
+        <div class="note note-error" ng-show="!entity.name.length">
+            This is a required field.
+        </div>
+    </section>
+    <section class="col-12">
+        <label class="label">Description</label>
+        <label class="textarea">
+            <textarea class="form-control" placeholder="Description" name="description" rows="4" data-ng-model="entity.description" ng-disabled="!allowEdit"></textarea>
+        </label>
+    </section>
+    <div class="row">
+        <section class="col col-6">
+            <label class="label">Status<span class="txt-color-red">*</span></label>
+            <label class="select" ng-class="{'state-error':!entity.status}">
+                <select  name="status" class="input-lg" ng-model="entity.status" ng-options="status.name for status in statuses track by status.id" required ng-disabled="!allowEdit"></select>
+                <i></i>
+            </label>
+            <div class="note note-error" ng-show="!entity.status">
+                This is a required field.
+            </div>
+        </section>
+        <section class="col col-6">
+            <label class="label">Position</label>
+            <label class="input">
+                <input type="number" class="input-lg" placeholder="Position" data-ng-model="entity.position" required ng-disabled="!allowEdit">
+            </label>
+        </section>
+    </div>
+</fieldset>
